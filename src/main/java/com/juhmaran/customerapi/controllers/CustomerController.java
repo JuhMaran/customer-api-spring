@@ -61,4 +61,10 @@ public class CustomerController {
     customerService.deactivateCustomer(id);
   }
 
+  @PatchMapping("/{id}/reactivate")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void reactivate(@PathVariable UUID id) {
+    customerService.reactivateCustomer(id);
+  }
+
 }

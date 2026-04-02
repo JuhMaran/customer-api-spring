@@ -96,6 +96,27 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional
+  public void reactivateCustomer(UUID id) {
+    Customer customer = customerRepository.findById(id)
+      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+
+    if (customer.getStatus()) {
+      log.warn("Cliente já está ativo: {}", id);
+      return; // já ativo, não faz nada
+    }
+
+    // Verifica se existe outro cliente ativo com o mesmo email
+    if (customerRepository.existsByEmailAndStatusTrue(customer.getEmail())) {
+      throw new EmailAlreadyExistsException("Não é possível reativar: email já cadastrado por outro cliente ativo");
+    }
+
+    customer.setStatus(true); // reativação lógica
+    customerRepository.save(customer);
+    log.info("Cliente reativado (status=true): {}", id);
+  }
+
+  @Override
+  @Transactional
   public void deactivateCustomer(UUID id) {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
