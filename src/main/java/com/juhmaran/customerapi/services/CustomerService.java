@@ -24,8 +24,6 @@ public interface CustomerService {
 
   void partialUpdateCustomer(UUID id, CustomerRequestDTO request);
 
-  void deleteCustomer(UUID id);
-
   void deactivateCustomer(UUID id);
 
 }

@@ -36,6 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
       throw new EmailAlreadyExistsException("Email já cadastrado");
     }
     Customer customer = mapper.toEntity(request);
+    customer.setStatus(true); // Sempre TRUE no cadastro
     Customer saved = customerRepository.save(customer);
     log.info("Cliente criado: {}", saved.getId());
     return mapper.toDTO(saved);
@@ -52,7 +53,8 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   @Transactional(readOnly = true)
   public List<CustomerResponseDTO> getAllCustomers() {
-    return mapper.toDTOs(customerRepository.findAll());
+    // Retorna apenas clientes ativos
+    return mapper.toDTOs(customerRepository.findAllByStatusTrue());
   }
 
   @Override
@@ -61,11 +63,10 @@ public class CustomerServiceImpl implements CustomerService {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
 
-    // Verifica se o email existe para outro cliente
     if (request.email() != null &&
-      !request.email().equals(customer.getEmail()) && // permite manter o mesmo email sem erro
+      !request.email().equals(customer.getEmail()) &&
       customerRepository.existsByEmail(request.email())) {
-      throw new EmailAlreadyExistsException("Email já cadastrado"); // lança Exception
+      throw new EmailAlreadyExistsException("Email já cadastrado");
     }
 
     mapper.updateEntityFromDTO(request, customer);
@@ -95,20 +96,10 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional
-  public void deleteCustomer(UUID id) {
-    if (!customerRepository.existsById(id)) {
-      throw new CustomerNotFoundException("Cliente não encontrado");
-    }
-    customerRepository.deleteById(id);
-    log.info("Cliente deletado: {}", id);
-  }
-
-  @Override
-  @Transactional
   public void deactivateCustomer(UUID id) {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
-    customer.setStatus(false); // exclusão lógica
+    customer.setStatus(false); // Exclusão lógica
     customerRepository.save(customer);
     log.info("Cliente desativado (status=false): {}", id);
   }
