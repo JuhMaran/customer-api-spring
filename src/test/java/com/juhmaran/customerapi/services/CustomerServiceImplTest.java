@@ -10,10 +10,15 @@ import com.juhmaran.customerapi.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +35,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ActiveProfiles("test")
+@ExtendWith(MockitoExtension.class)
 class CustomerServiceImplTest {
 
   @Mock
@@ -44,10 +50,16 @@ class CustomerServiceImplTest {
   CustomerRequestDTO validRequest;
   Customer customerEntity;
 
+  @TestConfiguration
+  static class TestConfig {
+    @Bean
+    public CacheManager cacheManager() {
+      return new ConcurrentMapCacheManager();
+    }
+  }
+
   @BeforeEach
   void setUp() {
-    MockitoAnnotations.openMocks(this);
-
     validRequest = CustomerRequestDTO.builder()
       .fullName("Ju Maran")
       .email("ju@test.com")
