@@ -1,8 +1,6 @@
 # Customer API REST
 
-API RESTful completa para gerenciamento de clientes, construída com **Spring Boot**, **Spring Data JPA**, **Hibernate**,
-**MapStruct** e **Flyway**. A API implementa **CRUD**, **exclusão lógica** e **reativação de clientes**, seguindo boas
-práticas de desenvolvimento backend.
+API RESTful completa para gerenciamento de clientes, construída com **Spring Boot**, **Spring Data JPA**, **Hibernate**, **MapStruct** e **Flyway**. A API implementa **CRUD**, **exclusão lógica** e **reativação de clientes**, seguindo boas práticas de desenvolvimento backend.
 
 ## Sumário
 
@@ -63,15 +61,15 @@ Modelo de persistência do cliente:
 
 Base URL: `http://localhost:8081/api/v1/customers`
 
-| Método | Endpoint           | Descrição                        | Status HTTP    |
-|--------|--------------------|----------------------------------|----------------|
-| POST   | `/`                | Criar cliente                    | 201 Created    |
-| GET    | `/`                | Listar clientes ativos           | 200 OK         |
-| GET    | `/{id}`            | Buscar cliente por ID            | 200 OK         |
-| PUT    | `/{id}`            | Atualização total                | 204 No Content |
-| PATCH  | `/{id}`            | Atualização parcial              | 204 No Content |
-| DELETE | `/{id}`            | Exclusão lógica (status = FALSE) | 204 No Content |
-| PATCH  | `/{id}/reactivate` | Reativar cliente (status = TRUE) | 204 No Content |
+| Método | Endpoint           | Descrição                        | Status HTTP                   |
+|--------|--------------------|----------------------------------|-------------------------------|
+| POST   | `/`                | Criar cliente                    | 201 Created + Location header |
+| GET    | `/`                | Listar clientes ativos           | 200 OK                        |
+| GET    | `/{id}`            | Buscar cliente por ID            | 200 OK                        |
+| PUT    | `/{id}`            | Atualização total                | 204 No Content                |
+| PATCH  | `/{id}`            | Atualização parcial              | 204 No Content                |
+| DELETE | `/{id}`            | Exclusão lógica (status = FALSE) | 204 No Content                |
+| PATCH  | `/{id}/reactivate` | Reativar cliente (status = TRUE) | 204 No Content                |
 
 ## Validações e Exceções
 
@@ -140,7 +138,7 @@ logging:
 curl --location 'http://localhost:8081/api/v1/customers/91dfd2b2-0ec3-4381-95d5-2f54900944bf'
 ```
 
-### Register New Customer
+### Register New Customer (Body Vazio + Location Header)
 
 ```bash
 curl --location 'http://localhost:8081/api/v1/customers' \
@@ -149,8 +147,17 @@ curl --location 'http://localhost:8081/api/v1/customers' \
     "fullName": "John Doe",
     "email": "john.doe@example.com",
     "phone": "11998765432"
-}'
+}' \
+--include
 ```
+
+> **Observação:** O POST retorna **status 201**, **body vazio** e o header `Location` aponta para o recurso criado, por
+> exemplo:
+>
+> ```
+> HTTP/1.1 201 Created
+> Location: /api/v1/customers/91dfd2b2-0ec3-4381-95d5-2f54900944bf
+> ```
 
 ## Exemplos de Response Body
 
@@ -168,6 +175,18 @@ curl --location 'http://localhost:8081/api/v1/customers' \
 }
 ```
 
+### Erro – 400 Bad Request (DTO inválido)
+
+```json
+{
+  "timestamp": "2026-04-02T13:25:02.9131373",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "email: Email is required",
+  "path": "/api/v1/customers"
+}
+```
+
 ### Erro – 404 Not Found
 
 ```json
@@ -177,18 +196,6 @@ curl --location 'http://localhost:8081/api/v1/customers' \
   "error": "Not Found",
   "message": "Cliente não encontrado",
   "path": "/api/v1/customers/91dfd2b2-0ec3-4381-95d5-2f54900944bf"
-}
-```
-
-### Erro – 500 Internal Server Error
-
-```json
-{
-  "timestamp": "2026-04-02T13:11:06.6135247",
-  "status": 500,
-  "error": "Internal Server Error",
-  "message": "Ocorreu um erro inesperado",
-  "path": "/api/v1/customers/:customerId"
 }
 ```
 
@@ -204,15 +211,15 @@ curl --location 'http://localhost:8081/api/v1/customers' \
 }
 ```
 
-### Erro – 400 Bad Request (DTO inválido)
+### Erro – 500 Internal Server Error
 
 ```json
 {
-  "timestamp": "2026-04-02T13:25:02.9131373",
-  "status": 400,
-  "error": "Bad Request",
-  "message": "email: Email is required",
-  "path": "/api/v1/customers"
+  "timestamp": "2026-04-02T13:11:06.6135247",
+  "status": 500,
+  "error": "Internal Server Error",
+  "message": "Ocorreu um erro inesperado",
+  "path": "/api/v1/customers/:customerId"
 }
 ```
 

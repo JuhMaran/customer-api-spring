@@ -2,8 +2,9 @@ package com.juhmaran.customerapi.services;
 
 import com.juhmaran.customerapi.model.CustomerRequestDTO;
 import com.juhmaran.customerapi.model.CustomerResponseDTO;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -18,7 +19,7 @@ public interface CustomerService {
 
   CustomerResponseDTO getCustomerById(UUID id);
 
-  List<CustomerResponseDTO> getAllCustomers();
+  Page<CustomerResponseDTO> getAllCustomers(Pageable pageable);
 
   void updateCustomer(UUID id, CustomerRequestDTO request);
 
