@@ -103,4 +103,14 @@ public class CustomerServiceImpl implements CustomerService {
     log.info("Cliente deletado: {}", id);
   }
 
+  @Override
+  @Transactional
+  public void deactivateCustomer(UUID id) {
+    Customer customer = customerRepository.findById(id)
+      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+    customer.setStatus(false); // exclusão lógica
+    customerRepository.save(customer);
+    log.info("Cliente desativado (status=false): {}", id);
+  }
+
 }

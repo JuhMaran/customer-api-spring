@@ -26,4 +26,6 @@ public interface CustomerService {
 
   void deleteCustomer(UUID id);
 
+  void deactivateCustomer(UUID id);
+
 }

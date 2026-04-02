@@ -61,4 +61,10 @@ public class CustomerController {
     customerService.deleteCustomer(id);
   }
 
+  @DeleteMapping("/{id}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deactivate(@PathVariable UUID id) {
+    customerService.deactivateCustomer(id);
+  }
+
 }
