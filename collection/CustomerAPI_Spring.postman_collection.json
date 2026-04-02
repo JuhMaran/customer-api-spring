@@ -1,0 +1,1429 @@
+{
+  "info": {
+    "_postman_id": "4270b8a3-2d0e-4cbc-8e65-7bf2c5d733ea",
+    "name": "Customer API Spring",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "13771815",
+    "_collection_link": "https://go.postman.co/collection/13771815-4270b8a3-2d0e-4cbc-8e65-7bf2c5d733ea?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "actuator",
+      "item": [
+        {
+          "name": "health",
+          "item": [
+            {
+              "name": "{*path}",
+              "item": [
+                {
+                  "name": "readiness",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/actuator/health/readiness",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "actuator",
+                        "health",
+                        "readiness"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "200 OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/actuator/health/readiness",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "actuator",
+                            "health",
+                            "readiness"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json",
+                          "description": "",
+                          "type": "text"
+                        },
+                        {
+                          "key": "Transfer-Encoding",
+                          "value": "chunked"
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Thu, 02 Apr 2026 17:42:05 GMT"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=60"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"status\": \"UP\"\n}"
+                    }
+                  ]
+                },
+                {
+                  "name": "liveness",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/actuator/health/liveness",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "actuator",
+                        "health",
+                        "liveness"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "200 OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/actuator/health/liveness",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "actuator",
+                            "health",
+                            "liveness"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json",
+                          "description": "",
+                          "type": "text"
+                        },
+                        {
+                          "key": "Transfer-Encoding",
+                          "value": "chunked"
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Thu, 02 Apr 2026 17:42:37 GMT"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=60"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        }
+                      ],
+                      "cookie": [
+                        {
+                          "expires": "Invalid Date",
+                          "domain": "",
+                          "path": ""
+                        }
+                      ],
+                      "body": "{\n    \"status\": \"UP\"\n}"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "health",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/actuator/health",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "actuator",
+                    "health"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200 OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/actuator/health",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "actuator",
+                        "health"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json",
+                      "description": "",
+                      "type": "text"
+                    },
+                    {
+                      "key": "Transfer-Encoding",
+                      "value": "chunked"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Thu, 02 Apr 2026 12:36:17 GMT"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=60"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{\n    \"groups\": [\n        \"liveness\",\n        \"readiness\"\n    ],\n    \"status\": \"UP\"\n}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "info",
+          "item": [
+            {
+              "name": "info",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8081/actuator/info",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "actuator",
+                    "info"
+                  ]
+                }
+              },
+              "response": [
+                {
+                  "name": "200 OK",
+                  "originalRequest": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "http://localhost:8081/actuator/info",
+                      "protocol": "http",
+                      "host": [
+                        "localhost"
+                      ],
+                      "port": "8081",
+                      "path": [
+                        "actuator",
+                        "info"
+                      ]
+                    }
+                  },
+                  "status": "OK",
+                  "code": 200,
+                  "_postman_previewlanguage": "json",
+                  "header": [
+                    {
+                      "key": "Content-Type",
+                      "value": "application/json",
+                      "description": "",
+                      "type": "text"
+                    },
+                    {
+                      "key": "Content-Length",
+                      "value": "2"
+                    },
+                    {
+                      "key": "Date",
+                      "value": "Thu, 02 Apr 2026 17:43:38 GMT"
+                    },
+                    {
+                      "key": "Keep-Alive",
+                      "value": "timeout=60"
+                    },
+                    {
+                      "key": "Connection",
+                      "value": "keep-alive"
+                    }
+                  ],
+                  "cookie": [],
+                  "body": "{}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "actuator",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/actuator",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "actuator"
+              ]
+            }
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "originalRequest": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/actuator",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "actuator"
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "_postman_previewlanguage": "json",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json",
+                  "description": "",
+                  "type": "text"
+                },
+                {
+                  "key": "Content-Length",
+                  "value": "315"
+                },
+                {
+                  "key": "Date",
+                  "value": "Thu, 02 Apr 2026 17:43:04 GMT"
+                },
+                {
+                  "key": "Keep-Alive",
+                  "value": "timeout=60"
+                },
+                {
+                  "key": "Connection",
+                  "value": "keep-alive"
+                }
+              ],
+              "cookie": [],
+              "body": "{\n    \"_links\": {\n        \"self\": {\n            \"href\": \"http://localhost:8081/actuator\",\n            \"templated\": false\n        },\n        \"info\": {\n            \"href\": \"http://localhost:8081/actuator/info\",\n            \"templated\": false\n        },\n        \"health\": {\n            \"href\": \"http://localhost:8081/actuator/health\",\n            \"templated\": false\n        },\n        \"health-path\": {\n            \"href\": \"http://localhost:8081/actuator/health/{*path}\",\n            \"templated\": true\n        }\n    }\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "api",
+      "item": [
+        {
+          "name": "v1",
+          "item": [
+            {
+              "name": "customers",
+              "item": [
+                {
+                  "name": "{customerId}",
+                  "item": [
+                    {
+                      "name": "reactivate",
+                      "item": [
+                        {
+                          "name": "reactivate",
+                          "request": {
+                            "method": "PATCH",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId/reactivate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId",
+                                "reactivate"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": "50bd9552-1323-4f53-9c58-e28f17e03962"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "204 No Content - Reactivate",
+                              "originalRequest": {
+                                "method": "PATCH",
+                                "header": [],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/customers/:customerId/reactivate",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "customers",
+                                    ":customerId",
+                                    "reactivate"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "customerId",
+                                      "value": "50bd9552-1323-4f53-9c58-e28f17e03962"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "No Content",
+                              "code": 204,
+                              "_postman_previewlanguage": null,
+                              "header": [
+                                {
+                                  "key": "Date",
+                                  "value": "Thu, 02 Apr 2026 17:51:05 GMT"
+                                },
+                                {
+                                  "key": "Keep-Alive",
+                                  "value": "timeout=60"
+                                },
+                                {
+                                  "key": "Connection",
+                                  "value": "keep-alive"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": null
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Get Customer By ID",
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers",
+                            ":customerId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "customerId",
+                              "value": "91dfd2b2-0ec3-4381-95d5-2f54900944bf"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "200 OK",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": "91dfd2b2-0ec3-4381-95d5-2f54900944bf"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Thu, 02 Apr 2026 15:19:02 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"id\": \"91dfd2b2-0ec3-4381-95d5-2f54900944bf\",\n    \"fullName\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone\": \"11998765432\",\n    \"registrationDate\": \"2026-04-02T12:17:58\",\n    \"lastUpdate\": \"2026-04-02T12:17:58\",\n    \"status\": true\n}"
+                        },
+                        {
+                          "name": "404 Not Found - Cliente não encontrado",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": "91dfd2b2-0ec3-4381-95d5-2f54900944bf"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Thu, 02 Apr 2026 16:10:42 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"timestamp\": \"2026-04-02T13:10:42.6037993\",\n    \"status\": 404,\n    \"error\": \"Not Found\",\n    \"message\": \"Cliente não encontrado\",\n    \"path\": \"/api/v1/customers/91dfd2b2-0ec3-4381-95d5-2f54900944bf\"\n}"
+                        },
+                        {
+                          "name": "500 Internal Server Error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": ""
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Thu, 02 Apr 2026 16:11:06 GMT"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "close"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"timestamp\": \"2026-04-02T13:11:06.6135247\",\n    \"status\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Ocorreu um erro inesperado\",\n    \"path\": \"/api/v1/customers/:customerId\"\n}"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Update Customer By ID",
+                      "request": {
+                        "method": "PUT",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"fullName\": \"Juliane V Maran\",\r\n    \"email\": \"juliane.maran@gmail.com\",\r\n    \"phone\": \"+5541992199488\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers",
+                            ":customerId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "customerId",
+                              "value": "43e6345a-00f0-481c-acb9-d8386485fcc0"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "204 No Content",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\r\n    \"fullName\": \"John Doe XYZ\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"+5511998765432\"\r\n}",
+                              "options": {
+                                "raw": {
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": "22203ca3-e911-449a-bd88-2a37bf8c7c39"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "No Content",
+                          "code": 204,
+                          "_postman_previewlanguage": null,
+                          "header": [
+                            {
+                              "key": "Date",
+                              "value": "Thu, 02 Apr 2026 16:19:29 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": null
+                        },
+                        {
+                          "name": "404 Not Found - Cliente não encontrado",
+                          "originalRequest": {
+                            "method": "PUT",
+                            "header": [],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\r\n    \"fullName\": \"John Doe XYZ\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"+5511998765432\"\r\n}",
+                              "options": {
+                                "raw": {
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": "22203ca3-e911-449a-bd88-2a37bf8c7c39"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Thu, 02 Apr 2026 16:22:35 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"timestamp\": \"2026-04-02T13:22:35.1711989\",\n    \"status\": 404,\n    \"error\": \"Not Found\",\n    \"message\": \"Cliente não encontrado\",\n    \"path\": \"/api/v1/customers/22203ca3-e911-449a-bd88-2a37bf8c7c39\"\n}"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Deactivate Customer",
+                      "request": {
+                        "method": "DELETE",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers",
+                            ":customerId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "customerId",
+                              "value": "50bd9552-1323-4f53-9c58-e28f17e03962"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "204 No Content - Deactivate",
+                          "originalRequest": {
+                            "method": "DELETE",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": "50bd9552-1323-4f53-9c58-e28f17e03962"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "No Content",
+                          "code": 204,
+                          "_postman_previewlanguage": null,
+                          "header": [
+                            {
+                              "key": "Date",
+                              "value": "Thu, 02 Apr 2026 17:48:48 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": null
+                        }
+                      ]
+                    },
+                    {
+                      "name": "Partially Update Customer By ID",
+                      "request": {
+                        "method": "PATCH",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"email\": \"julianemaran@gmail.com\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers",
+                            ":customerId"
+                          ],
+                          "variable": [
+                            {
+                              "key": "customerId",
+                              "value": "43e6345a-00f0-481c-acb9-d8386485fcc0"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "204 No Content",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\r\n    \"fullName\": \"John Doe\"\r\n}",
+                              "options": {
+                                "raw": {
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": "22203ca3-e911-449a-bd88-2a37bf8c7c39"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "No Content",
+                          "code": 204,
+                          "_postman_previewlanguage": null,
+                          "header": [
+                            {
+                              "key": "Date",
+                              "value": "Thu, 02 Apr 2026 16:21:03 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": null
+                        },
+                        {
+                          "name": "404 Not Found - Cliente não encontrado",
+                          "originalRequest": {
+                            "method": "PATCH",
+                            "header": [],
+                            "body": {
+                              "mode": "raw",
+                              "raw": "{\r\n    \"fullName\": \"John Doe\"\r\n}",
+                              "options": {
+                                "raw": {
+                                  "language": "json"
+                                }
+                              }
+                            },
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": "22203ca3-e911-449a-bd88-2a37bf8c7c39"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Thu, 02 Apr 2026 16:23:09 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"timestamp\": \"2026-04-02T13:23:09.5631508\",\n    \"status\": 404,\n    \"error\": \"Not Found\",\n    \"message\": \"Cliente não encontrado\",\n    \"path\": \"/api/v1/customers/22203ca3-e911-449a-bd88-2a37bf8c7c39\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "List All Customers",
+                  "request": {
+                    "auth": {
+                      "type": "noauth"
+                    },
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/customers",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "customers"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "200 OK",
+                      "originalRequest": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers"
+                          ]
+                        }
+                      },
+                      "status": "OK",
+                      "code": 200,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json",
+                          "description": "",
+                          "type": "text"
+                        },
+                        {
+                          "key": "Transfer-Encoding",
+                          "value": "chunked"
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Thu, 02 Apr 2026 16:19:43 GMT"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=60"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "[\n    {\n        \"id\": \"22203ca3-e911-449a-bd88-2a37bf8c7c39\",\n        \"fullName\": \"John Doe XYZ\",\n        \"email\": \"john.doe@example.com\",\n        \"phone\": \"+5511998765432\",\n        \"registrationDate\": \"2026-04-02T13:16:01\",\n        \"lastUpdate\": \"2026-04-02T13:19:29\",\n        \"status\": true\n    }\n]"
+                    }
+                  ]
+                },
+                {
+                  "name": "Register new customer",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"fullName\": \"Juliane Maran\",\r\n    \"email\": \"julianemaran@gmail.com\",\r\n    \"phone\": \"5541992199488\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{baseUrl}}/api/v1/customers",
+                      "host": [
+                        "{{baseUrl}}"
+                      ],
+                      "path": [
+                        "api",
+                        "v1",
+                        "customers"
+                      ]
+                    }
+                  },
+                  "response": [
+                    {
+                      "name": "201 Created",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"fullName\": \"John Doe\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"11998765432\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers"
+                          ]
+                        }
+                      },
+                      "status": "Created",
+                      "code": 201,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json",
+                          "description": "",
+                          "type": "text"
+                        },
+                        {
+                          "key": "Transfer-Encoding",
+                          "value": "chunked"
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Thu, 02 Apr 2026 16:16:01 GMT"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=60"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"id\": \"22203ca3-e911-449a-bd88-2a37bf8c7c39\",\n    \"fullName\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone\": \"11998765432\",\n    \"registrationDate\": null,\n    \"lastUpdate\": null,\n    \"status\": true\n}"
+                    },
+                    {
+                      "name": "400 Bad Request - Email is required",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"fullName\": \"John Doe\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json",
+                          "description": "",
+                          "type": "text"
+                        },
+                        {
+                          "key": "Transfer-Encoding",
+                          "value": "chunked"
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Thu, 02 Apr 2026 16:25:02 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "close"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"timestamp\": \"2026-04-02T13:25:02.9131373\",\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"email: Email is required\",\n    \"path\": \"/api/v1/customers\"\n}"
+                    },
+                    {
+                      "name": "400 Bad Request - Full name is required",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"11998765432\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json",
+                          "description": "",
+                          "type": "text"
+                        },
+                        {
+                          "key": "Transfer-Encoding",
+                          "value": "chunked"
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Thu, 02 Apr 2026 16:28:18 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "close"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"timestamp\": \"2026-04-02T13:28:18.5917789\",\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"fullName: Full name is required\",\n    \"path\": \"/api/v1/customers\"\n}"
+                    },
+                    {
+                      "name": "400 Bad Request - Phone",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"fullName\": \"Juliane Maran\",\r\n    \"email\": \"julianemaran@gmail.com\",\r\n    \"phone\": \"+5541 9 9219 9488\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers"
+                          ]
+                        }
+                      },
+                      "status": "Bad Request",
+                      "code": 400,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json",
+                          "description": "",
+                          "type": "text"
+                        },
+                        {
+                          "key": "Transfer-Encoding",
+                          "value": "chunked"
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Thu, 02 Apr 2026 17:44:46 GMT"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "close"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"timestamp\": \"2026-04-02T14:44:46.198821\",\n    \"status\": 400,\n    \"error\": \"Bad Request\",\n    \"message\": \"phone: Phone must follow E.164 format\",\n    \"path\": \"/api/v1/customers\"\n}"
+                    },
+                    {
+                      "name": "409 Conflict - Email já cadastrado",
+                      "originalRequest": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "raw",
+                          "raw": "{\r\n    \"fullName\": \"John Doe\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"11998765432\"\r\n}",
+                          "options": {
+                            "raw": {
+                              "language": "json"
+                            }
+                          }
+                        },
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers"
+                          ]
+                        }
+                      },
+                      "status": "Conflict",
+                      "code": 409,
+                      "_postman_previewlanguage": "json",
+                      "header": [
+                        {
+                          "key": "Content-Type",
+                          "value": "application/json",
+                          "description": "",
+                          "type": "text"
+                        },
+                        {
+                          "key": "Transfer-Encoding",
+                          "value": "chunked"
+                        },
+                        {
+                          "key": "Date",
+                          "value": "Thu, 02 Apr 2026 16:23:29 GMT"
+                        },
+                        {
+                          "key": "Keep-Alive",
+                          "value": "timeout=60"
+                        },
+                        {
+                          "key": "Connection",
+                          "value": "keep-alive"
+                        }
+                      ],
+                      "cookie": [],
+                      "body": "{\n    \"timestamp\": \"2026-04-02T13:23:29.8127067\",\n    \"status\": 409,\n    \"error\": \"Conflict\",\n    \"message\": \"Email já cadastrado\",\n    \"path\": \"/api/v1/customers\"\n}"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": ""
+    }
+  ]
+}
