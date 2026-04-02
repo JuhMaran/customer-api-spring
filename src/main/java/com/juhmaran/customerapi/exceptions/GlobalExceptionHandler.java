@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 /**
- * customer-api-spring
+ * Exception Handler
  *
  * @author Juliane Maran
  * @since 02/04/2026
@@ -63,8 +63,8 @@ public class GlobalExceptionHandler {
   }
 
   // 409 Conflict - Email já cadastrado
-  @ExceptionHandler(EmailAlreadyExistsException.class)
-  public ResponseEntity<ErrorResponse> handleEmailAlreadyExists(EmailAlreadyExistsException ex, HttpServletRequest request) {
+  @ExceptionHandler(DuplicateFieldException.class)
+  public ResponseEntity<ErrorResponse> handleEmailAlreadyExists(DuplicateFieldException ex, HttpServletRequest request) {
     ErrorResponse error = buildError(HttpStatus.CONFLICT, ex.getMessage(), request);
     log.warn("409 Conflict - Email duplicado: {}", error);
     return ResponseEntity.status(HttpStatus.CONFLICT).body(error);

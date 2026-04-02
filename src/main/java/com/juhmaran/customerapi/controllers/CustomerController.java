@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 /**
- * customer-api-spring
+ * Customer Controller
  *
  * @author Juliane Maran
  * @since 02/04/2026

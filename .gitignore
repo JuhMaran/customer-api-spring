@@ -6,6 +6,7 @@ target/
 
 src/scripts/**
 .env
+htmlReport/**
 
 ### STS ###
 .apt_generated

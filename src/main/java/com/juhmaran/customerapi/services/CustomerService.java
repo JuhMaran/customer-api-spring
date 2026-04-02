@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.UUID;
 
 /**
- * customer-api-spring
+ * Interface Customer Service
  *
  * @author Juliane Maran
  * @since 02/04/2026

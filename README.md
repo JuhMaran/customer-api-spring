@@ -28,6 +28,7 @@ API RESTful completa para gerenciamento de clientes, construída com **Spring Bo
 * MySQL
 * Spring Actuator
 * Jakarta Bean Validation
+* H2 Database
 
 ## Funcionalidades
 

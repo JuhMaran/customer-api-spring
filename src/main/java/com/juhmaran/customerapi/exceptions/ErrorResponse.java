@@ -5,7 +5,7 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 /**
- * customer-api-spring
+ * Error Response
  *
  * @author Juliane Maran
  * @since 02/04/2026

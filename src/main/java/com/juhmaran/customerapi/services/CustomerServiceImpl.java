@@ -2,7 +2,7 @@ package com.juhmaran.customerapi.services;
 
 import com.juhmaran.customerapi.entities.Customer;
 import com.juhmaran.customerapi.exceptions.CustomerNotFoundException;
-import com.juhmaran.customerapi.exceptions.EmailAlreadyExistsException;
+import com.juhmaran.customerapi.exceptions.DuplicateFieldException;
 import com.juhmaran.customerapi.mapper.CustomerMapper;
 import com.juhmaran.customerapi.model.CustomerRequestDTO;
 import com.juhmaran.customerapi.model.CustomerResponseDTO;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 /**
- * Customer Service Implementation
+ * Customer Service Implementation with Logs
  *
  * @author Juliane Maran
  * @since 02/04/2026
@@ -33,13 +33,14 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   @Transactional
   public CustomerResponseDTO createCustomer(CustomerRequestDTO request) {
+    log.info("Creating customer with email: {}", request.email());
     if (customerRepository.existsByEmail(request.email())) {
-      throw new EmailAlreadyExistsException("Email já cadastrado");
+      throw new DuplicateFieldException("Email already registered");
     }
     Customer customer = mapper.toEntity(request);
-    customer.setStatus(true); // Sempre TRUE no cadastro
+    customer.setStatus(true);
     Customer saved = customerRepository.save(customer);
-    log.info("Cliente criado: {}", saved.getId());
+    log.info("Creating customer: {}", saved.getId());
     return mapper.toDTO(saved);
   }
 
@@ -67,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
     if (request.email() != null &&
       !request.email().equals(customer.getEmail()) &&
       customerRepository.existsByEmail(request.email())) {
-      throw new EmailAlreadyExistsException("Email já cadastrado");
+      throw new DuplicateFieldException("Email already in use");
     }
 
     mapper.updateEntityFromDTO(request, customer);
@@ -84,7 +85,7 @@ public class CustomerServiceImpl implements CustomerService {
     if (request.email() != null &&
       !request.email().equals(customer.getEmail()) &&
       customerRepository.existsByEmail(request.email())) {
-      throw new EmailAlreadyExistsException("Email já cadastrado");
+      throw new DuplicateFieldException("Email já cadastrado");
     }
 
     if (request.fullName() != null) customer.setFullName(request.fullName());
@@ -101,17 +102,17 @@ public class CustomerServiceImpl implements CustomerService {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
 
-    if (customer.getStatus()) {
+    if (Boolean.TRUE.equals(customer.getStatus())) {
       log.warn("Cliente já está ativo: {}", id);
-      return; // já ativo, não faz nada
+      return;
     }
 
     // Verifica se existe outro cliente ativo com o mesmo email
     if (customerRepository.existsByEmailAndStatusTrue(customer.getEmail())) {
-      throw new EmailAlreadyExistsException("Não é possível reativar: email já cadastrado por outro cliente ativo");
+      throw new DuplicateFieldException("Não é possível reativar: email já cadastrado por outro cliente ativo");
     }
 
-    customer.setStatus(true); // reativação lógica
+    customer.setStatus(true);
     customerRepository.save(customer);
     log.info("Cliente reativado (status=true): {}", id);
   }
@@ -121,7 +122,7 @@ public class CustomerServiceImpl implements CustomerService {
   public void deactivateCustomer(UUID id) {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
-    customer.setStatus(false); // Exclusão lógica
+    customer.setStatus(false);
     customerRepository.save(customer);
     log.info("Cliente desativado (status=false): {}", id);
   }
