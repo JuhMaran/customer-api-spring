@@ -1,9 +1,10 @@
 package com.juhmaran.customerapi.repositories;
 
 import com.juhmaran.customerapi.entities.Customer;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -16,10 +17,8 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
 
   boolean existsByEmail(String email);
 
-  // Lista apenas clientes ativos
-  List<Customer> findAllByStatusTrue();
+  Page<Customer> findAllByStatusTrue(Pageable pageable);
 
-  // Verifica se existe outro cliente ativo com o mesmo email
   boolean existsByEmailAndStatusTrue(String email);
 
 }

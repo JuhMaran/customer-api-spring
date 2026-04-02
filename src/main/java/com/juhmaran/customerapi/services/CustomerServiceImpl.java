@@ -9,10 +9,11 @@ import com.juhmaran.customerapi.model.CustomerResponseDTO;
 import com.juhmaran.customerapi.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -52,9 +53,9 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional(readOnly = true)
-  public List<CustomerResponseDTO> getAllCustomers() {
-    // Retorna apenas clientes ativos
-    return mapper.toDTOs(customerRepository.findAllByStatusTrue());
+  public Page<CustomerResponseDTO> getAllCustomers(Pageable pageable) {
+    Page<Customer> customersPage = customerRepository.findAllByStatusTrue(pageable);
+    return customersPage.map(mapper::toDTO);
   }
 
   @Override
