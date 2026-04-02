@@ -1,6 +1,7 @@
 package com.juhmaran.customerapi.services;
 
-import com.juhmaran.customerapi.model.CustomerDTO;
+import com.juhmaran.customerapi.model.CustomerRequestDTO;
+import com.juhmaran.customerapi.model.CustomerResponseDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -13,14 +14,16 @@ import java.util.UUID;
  */
 public interface CustomerService {
 
-  CustomerDTO createCustomer(CustomerDTO customerDTO);
+  CustomerResponseDTO createCustomer(CustomerRequestDTO request);
 
-  CustomerDTO updateCustomer(UUID id, CustomerDTO customerDTO);
+  CustomerResponseDTO getCustomerById(UUID id);
+
+  List<CustomerResponseDTO> getAllCustomers();
+
+  void updateCustomer(UUID id, CustomerRequestDTO request);
+
+  void partialUpdateCustomer(UUID id, CustomerRequestDTO request);
 
   void deleteCustomer(UUID id);
-
-  CustomerDTO getCustomerById(UUID id);
-
-  List<CustomerDTO> getAllCustomers();
 
 }

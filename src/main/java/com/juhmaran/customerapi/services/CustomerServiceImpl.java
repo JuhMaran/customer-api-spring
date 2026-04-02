@@ -1,20 +1,22 @@
 package com.juhmaran.customerapi.services;
 
 import com.juhmaran.customerapi.entities.Customer;
+import com.juhmaran.customerapi.exceptions.CustomerNotFoundException;
+import com.juhmaran.customerapi.exceptions.EmailAlreadyExistsException;
 import com.juhmaran.customerapi.mapper.CustomerMapper;
-import com.juhmaran.customerapi.model.CustomerDTO;
+import com.juhmaran.customerapi.model.CustomerRequestDTO;
+import com.juhmaran.customerapi.model.CustomerResponseDTO;
 import com.juhmaran.customerapi.repositories.CustomerRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
- * customer-api-spring
+ * Customer Service Implementation
  *
  * @author Juliane Maran
  * @since 02/04/2026
@@ -28,47 +30,77 @@ public class CustomerServiceImpl implements CustomerService {
   private final CustomerMapper mapper;
 
   @Override
-  public CustomerDTO createCustomer(CustomerDTO customerDTO) {
-    if (customerRepository.existsByEmail(customerDTO.email())) {
-      throw new IllegalArgumentException("Email already exists");
+  @Transactional
+  public CustomerResponseDTO createCustomer(CustomerRequestDTO request) {
+    if (customerRepository.existsByEmail(request.email())) {
+      throw new EmailAlreadyExistsException("Email já cadastrado");
     }
-    Customer customer = mapper.customerDTOToCustomer(customerDTO);
-    return mapper.customerToCustomerDTO(customerRepository.save(customer));
+    Customer customer = mapper.toEntity(request);
+    Customer saved = customerRepository.save(customer);
+    log.info("Cliente criado: {}", saved.getId());
+    return mapper.toDTO(saved);
   }
 
   @Override
-  public CustomerDTO updateCustomer(UUID id, CustomerDTO customerDTO) {
+  @Transactional(readOnly = true)
+  public CustomerResponseDTO getCustomerById(UUID id) {
     Customer customer = customerRepository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
-
-    customer.setFullName(customerDTO.fullName());
-    customer.setEmail(customerDTO.email());
-    customer.setPhone(customerDTO.phone());
-    customer.setStatus(customerDTO.status());
-
-    return mapper.customerToCustomerDTO(customerRepository.save(customer));
+      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+    return mapper.toDTO(customer);
   }
 
   @Override
+  @Transactional(readOnly = true)
+  public List<CustomerResponseDTO> getAllCustomers() {
+    return mapper.toDTOs(customerRepository.findAll());
+  }
+
+  @Override
+  @Transactional
+  public void updateCustomer(UUID id, CustomerRequestDTO request) {
+    Customer customer = customerRepository.findById(id)
+      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+
+    // Verifica se o email existe para outro cliente
+    if (request.email() != null &&
+      !request.email().equals(customer.getEmail()) && // permite manter o mesmo email sem erro
+      customerRepository.existsByEmail(request.email())) {
+      throw new EmailAlreadyExistsException("Email já cadastrado"); // lança Exception
+    }
+
+    mapper.updateEntityFromDTO(request, customer);
+    customerRepository.save(customer);
+    log.info("Cliente atualizado: {}", id);
+  }
+
+  @Override
+  @Transactional
+  public void partialUpdateCustomer(UUID id, CustomerRequestDTO request) {
+    Customer customer = customerRepository.findById(id)
+      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+
+    if (request.email() != null &&
+      !request.email().equals(customer.getEmail()) &&
+      customerRepository.existsByEmail(request.email())) {
+      throw new EmailAlreadyExistsException("Email já cadastrado");
+    }
+
+    if (request.fullName() != null) customer.setFullName(request.fullName());
+    if (request.email() != null) customer.setEmail(request.email());
+    if (request.phone() != null) customer.setPhone(request.phone());
+
+    customerRepository.save(customer);
+    log.info("Cliente parcialmente atualizado: {}", id);
+  }
+
+  @Override
+  @Transactional
   public void deleteCustomer(UUID id) {
-    if (!customerRepository.existsById(id))
-      throw new EntityNotFoundException("Customer not found");
+    if (!customerRepository.existsById(id)) {
+      throw new CustomerNotFoundException("Cliente não encontrado");
+    }
     customerRepository.deleteById(id);
-  }
-
-  @Override
-  public CustomerDTO getCustomerById(UUID id) {
-    Customer customer = customerRepository.findById(id)
-      .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
-    return mapper.customerToCustomerDTO(customer);
-  }
-
-  @Override
-  public List<CustomerDTO> getAllCustomers() {
-    return customerRepository.findAll()
-      .stream()
-      .map(mapper::customerToCustomerDTO)
-      .collect(Collectors.toList());
+    log.info("Cliente deletado: {}", id);
   }
 
 }

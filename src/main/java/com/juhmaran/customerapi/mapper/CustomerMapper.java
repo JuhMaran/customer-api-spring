@@ -1,10 +1,13 @@
 package com.juhmaran.customerapi.mapper;
 
 import com.juhmaran.customerapi.entities.Customer;
-import com.juhmaran.customerapi.model.CustomerDTO;
+import com.juhmaran.customerapi.model.CustomerRequestDTO;
+import com.juhmaran.customerapi.model.CustomerResponseDTO;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.MappingConstants;
+import org.mapstruct.MappingTarget;
+
+import java.util.List;
 
 /**
  * customer-api-spring
@@ -15,9 +18,12 @@ import org.mapstruct.MappingConstants;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CustomerMapper {
 
-  CustomerDTO customerToCustomerDTO(Customer customer);
+  Customer toEntity(CustomerRequestDTO dto);
 
-  @Mapping(target = "version", ignore = true)
-  Customer customerDTOToCustomer(CustomerDTO customerDTO);
+  CustomerResponseDTO toDTO(Customer entity);
+
+  List<CustomerResponseDTO> toDTOs(List<Customer> entities);
+
+  void updateEntityFromDTO(CustomerRequestDTO dto, @MappingTarget Customer entity);
 
 }
