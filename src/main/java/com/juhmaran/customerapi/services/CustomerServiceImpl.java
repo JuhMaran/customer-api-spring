@@ -2,7 +2,7 @@ package com.juhmaran.customerapi.services;
 
 import com.juhmaran.customerapi.entities.Customer;
 import com.juhmaran.customerapi.exceptions.CustomerNotFoundException;
-import com.juhmaran.customerapi.exceptions.EmailAlreadyExistsException;
+import com.juhmaran.customerapi.exceptions.DuplicateFieldException;
 import com.juhmaran.customerapi.mapper.CustomerMapper;
 import com.juhmaran.customerapi.model.CustomerRequestDTO;
 import com.juhmaran.customerapi.model.CustomerResponseDTO;
@@ -33,13 +33,14 @@ public class CustomerServiceImpl implements CustomerService {
   @Override
   @Transactional
   public CustomerResponseDTO createCustomer(CustomerRequestDTO request) {
+    log.info("Creating customer with email: {}", request.email());
     if (customerRepository.existsByEmail(request.email())) {
-      throw new EmailAlreadyExistsException("Email já cadastrado");
+      throw new DuplicateFieldException("Email already registered");
     }
     Customer customer = mapper.toEntity(request);
     customer.setStatus(true); // Sempre TRUE no cadastro
     Customer saved = customerRepository.save(customer);
-    log.info("Cliente criado: {}", saved.getId());
+    log.info("Creating customer: {}", saved.getId());
     return mapper.toDTO(saved);
   }
 
@@ -67,7 +68,7 @@ public class CustomerServiceImpl implements CustomerService {
     if (request.email() != null &&
       !request.email().equals(customer.getEmail()) &&
       customerRepository.existsByEmail(request.email())) {
-      throw new EmailAlreadyExistsException("Email já cadastrado");
+      throw new DuplicateFieldException("Email already in use");
     }
 
     mapper.updateEntityFromDTO(request, customer);
@@ -84,7 +85,7 @@ public class CustomerServiceImpl implements CustomerService {
     if (request.email() != null &&
       !request.email().equals(customer.getEmail()) &&
       customerRepository.existsByEmail(request.email())) {
-      throw new EmailAlreadyExistsException("Email já cadastrado");
+      throw new DuplicateFieldException("Email já cadastrado");
     }
 
     if (request.fullName() != null) customer.setFullName(request.fullName());
@@ -108,7 +109,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     // Verifica se existe outro cliente ativo com o mesmo email
     if (customerRepository.existsByEmailAndStatusTrue(customer.getEmail())) {
-      throw new EmailAlreadyExistsException("Não é possível reativar: email já cadastrado por outro cliente ativo");
+      throw new DuplicateFieldException("Não é possível reativar: email já cadastrado por outro cliente ativo");
     }
 
     customer.setStatus(true); // reativação lógica
