@@ -1,3 +1,4 @@
+-- V1__create_customer_table.sql
 CREATE TABLE customer
 (
     id                CHAR(36)     NOT NULL PRIMARY KEY,
