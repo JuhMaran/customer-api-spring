@@ -55,7 +55,7 @@ management:
 
 logging:
   level:
-    com.juhmaran.customerapi: debug # em prod = info
+    com.juhmaran.customerapi: debug
     root: info
     sql: trace
     org.hibernate.orm.jdbc.bind: trace
