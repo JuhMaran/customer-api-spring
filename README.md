@@ -12,6 +12,7 @@
 * Validation
 * Project Lombok
 * MapStruct
+* Actuator
 
 ## Licença
 
@@ -19,7 +20,7 @@ Este projeto é destinado para **fins educacionais**
 
 [Apache License 2.0](LICENSE)
 
-<br><br><br>
+## Autora & Desenvolvedora
 
 <h1 style="text-align: center;">Juliane Maran</h1>
 
