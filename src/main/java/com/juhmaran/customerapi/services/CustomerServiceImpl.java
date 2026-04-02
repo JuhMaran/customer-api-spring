@@ -9,6 +9,8 @@ import com.juhmaran.customerapi.model.CustomerResponseDTO;
 import com.juhmaran.customerapi.repositories.CustomerRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,9 +19,11 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 /**
- * Customer Service Implementation with Logs
+ * Customer Service Implementation with Logs and Caching
  *
  * @author Juliane Maran
+ * @Cacheable → armazena o resultado da consulta
+ * @CacheEvict → limpa o cache quando há atualização ou exclusão
  * @since 02/04/2026
  */
 @Slf4j
@@ -32,6 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional
+  @CacheEvict(value = {"customers", "customersPage"}, allEntries = true)
   public CustomerResponseDTO createCustomer(CustomerRequestDTO request) {
     log.info("Creating customer with email: {}", request.email());
     if (customerRepository.existsByEmail(request.email())) {
@@ -46,6 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional(readOnly = true)
+  @Cacheable(value = "customers", key = "#id")
   public CustomerResponseDTO getCustomerById(UUID id) {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
@@ -54,6 +60,7 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional(readOnly = true)
+  @Cacheable(value = "customersPage", key = "#pageable.pageNumber + '-' + #pageable.pageSize")
   public Page<CustomerResponseDTO> getAllCustomers(Pageable pageable) {
     Page<Customer> customersPage = customerRepository.findAllByStatusTrue(pageable);
     return customersPage.map(mapper::toDTO);
@@ -61,6 +68,10 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional
+  @CacheEvict(
+    value = {"customers", "customersPage"},
+    allEntries = true // Garantir consistência
+  )
   public void updateCustomer(UUID id, CustomerRequestDTO request) {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
@@ -78,6 +89,7 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional
+  @CacheEvict(value = {"customers", "customersPage"}, allEntries = true)
   public void partialUpdateCustomer(UUID id, CustomerRequestDTO request) {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
@@ -98,6 +110,7 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional
+  @CacheEvict(value = {"customers", "customersPage"}, allEntries = true)
   public void reactivateCustomer(UUID id) {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
@@ -107,7 +120,6 @@ public class CustomerServiceImpl implements CustomerService {
       return;
     }
 
-    // Verifica se existe outro cliente ativo com o mesmo email
     if (customerRepository.existsByEmailAndStatusTrue(customer.getEmail())) {
       throw new DuplicateFieldException("Não é possível reativar: email já cadastrado por outro cliente ativo");
     }
@@ -119,6 +131,7 @@ public class CustomerServiceImpl implements CustomerService {
 
   @Override
   @Transactional
+  @CacheEvict(value = {"customers", "customersPage"}, allEntries = true)
   public void deactivateCustomer(UUID id) {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));

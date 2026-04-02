@@ -6,6 +6,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
@@ -21,6 +25,14 @@ class CustomerRepositoryTest {
 
   Customer activeCustomer;
   Customer inactiveCustomer;
+
+  @TestConfiguration
+  static class TestConfig {
+    @Bean
+    public CacheManager cacheManager() {
+      return new ConcurrentMapCacheManager();
+    }
+  }
 
   @BeforeEach
   void setUp() {

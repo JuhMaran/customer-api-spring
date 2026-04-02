@@ -36,7 +36,12 @@ spring:
 
   flyway:
     enabled: true
-    locations: classpath:db/migration
+    locations: classpath:db/migration/mysql
+
+  cache:
+    cache-names:
+      - customers
+      - customersPage
 
 management:
   endpoint:
@@ -59,3 +64,16 @@ logging:
     root: info
     sql: trace
     org.hibernate.orm.jdbc.bind: trace
+
+logbook:
+  filter:
+    enabled: true
+    include: true
+    exclude:
+      - /health
+  format:
+    style: json
+  # Envia logs para Logstash (ou para console em JSON)
+  sink:
+    logstash:
+      enabled: true
