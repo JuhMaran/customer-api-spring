@@ -1,11 +1,12 @@
+-- V1__create_customer_table.sql
 CREATE TABLE customer
 (
-    id                CHAR(36) PRIMARY KEY,
-    version           INT                 NOT NULL DEFAULT 1,
-    full_name         VARCHAR(150)        NOT NULL CHECK (LENGTH(full_name) >= 3),
-    email             VARCHAR(100) UNIQUE NOT NULL,
-    phone             VARCHAR(20),
-    registration_date TIMESTAMP           NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    last_update       TIMESTAMP           NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status            BOOLEAN             NOT NULL DEFAULT TRUE
+    id                CHAR(36)     NOT NULL PRIMARY KEY,
+    version           BIGINT,
+    full_name         VARCHAR(150) NOT NULL,
+    email             VARCHAR(255) NOT NULL UNIQUE,
+    phone             VARCHAR(15),
+    registration_date TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    last_update       TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    status            BOOLEAN      NOT NULL DEFAULT TRUE
 );

@@ -43,6 +43,10 @@ management:
     health:
       probes:
         enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health,info
   health:
     readinessstate:
       enabled: true
@@ -52,5 +56,6 @@ management:
 logging:
   level:
     com.juhmaran.customerapi: debug # em prod = info
+    root: info
     sql: trace
     org.hibernate.orm.jdbc.bind: trace
