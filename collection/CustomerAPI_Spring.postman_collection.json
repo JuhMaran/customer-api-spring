@@ -1023,7 +1023,7 @@
                   ]
                 },
                 {
-                  "name": "List All Customers",
+                  "name": "List all active clients",
                   "request": {
                     "auth": {
                       "type": "noauth"
@@ -1031,7 +1031,7 @@
                     "method": "GET",
                     "header": [],
                     "url": {
-                      "raw": "{{baseUrl}}/api/v1/customers",
+                      "raw": "{{baseUrl}}/api/v1/customers?page=0&size=10",
                       "host": [
                         "{{baseUrl}}"
                       ],
@@ -1039,17 +1039,29 @@
                         "api",
                         "v1",
                         "customers"
+                      ],
+                      "query": [
+                        {
+                          "key": "page",
+                          "value": "0",
+                          "description": "Número de Páginas (0-indexed). Valor padrão = 0"
+                        },
+                        {
+                          "key": "size",
+                          "value": "10",
+                          "description": "Quantidade de registros por página. Valor padrão = 10"
+                        }
                       ]
                     }
                   },
                   "response": [
                     {
-                      "name": "200 OK",
+                      "name": "200 OK - List all active clients.",
                       "originalRequest": {
                         "method": "GET",
                         "header": [],
                         "url": {
-                          "raw": "{{baseUrl}}/api/v1/customers",
+                          "raw": "{{baseUrl}}/api/v1/customers?page=0&size=10",
                           "host": [
                             "{{baseUrl}}"
                           ],
@@ -1057,6 +1069,18 @@
                             "api",
                             "v1",
                             "customers"
+                          ],
+                          "query": [
+                            {
+                              "key": "page",
+                              "value": "0",
+                              "description": "Default = 0"
+                            },
+                            {
+                              "key": "size",
+                              "value": "10",
+                              "description": "Default = 10"
+                            }
                           ]
                         }
                       },
@@ -1076,7 +1100,7 @@
                         },
                         {
                           "key": "Date",
-                          "value": "Thu, 02 Apr 2026 16:19:43 GMT"
+                          "value": "Thu, 02 Apr 2026 18:22:18 GMT"
                         },
                         {
                           "key": "Keep-Alive",
@@ -1088,7 +1112,7 @@
                         }
                       ],
                       "cookie": [],
-                      "body": "[\n    {\n        \"id\": \"22203ca3-e911-449a-bd88-2a37bf8c7c39\",\n        \"fullName\": \"John Doe XYZ\",\n        \"email\": \"john.doe@example.com\",\n        \"phone\": \"+5511998765432\",\n        \"registrationDate\": \"2026-04-02T13:16:01\",\n        \"lastUpdate\": \"2026-04-02T13:19:29\",\n        \"status\": true\n    }\n]"
+                      "body": "{\n    \"content\": [\n        {\n            \"id\": \"344b5031-b488-42b2-80e2-860bc3b2153b\",\n            \"fullName\": \"Maria da Silva\",\n            \"email\": \"maria.silva@example.com\",\n            \"phone\": \"11998765432\",\n            \"registrationDate\": \"2026-04-02T15:15:37\",\n            \"lastUpdate\": \"2026-04-02T15:15:37\",\n            \"status\": true\n        },\n        {\n            \"id\": \"43e6345a-00f0-481c-acb9-d8386485fcc0\",\n            \"fullName\": \"Juliane V Maran\",\n            \"email\": \"julianemaran@gmail.com\",\n            \"phone\": \"+5541992199488\",\n            \"registrationDate\": \"2026-04-02T14:45:26\",\n            \"lastUpdate\": \"2026-04-02T14:47:13\",\n            \"status\": true\n        },\n        {\n            \"id\": \"50bd9552-1323-4f53-9c58-e28f17e03962\",\n            \"fullName\": \"John Doe\",\n            \"email\": \"john.doe@example.com\",\n            \"phone\": \"11998765432\",\n            \"registrationDate\": \"2026-04-02T14:44:19\",\n            \"lastUpdate\": \"2026-04-02T14:51:05\",\n            \"status\": true\n        },\n        {\n            \"id\": \"d8b8fcad-3a6c-44d6-b1b0-fd08af343d6a\",\n            \"fullName\": \"Rian\",\n            \"email\": \"rian@example.com\",\n            \"phone\": \"11998765432\",\n            \"registrationDate\": \"2026-04-02T15:19:37\",\n            \"lastUpdate\": \"2026-04-02T15:19:37\",\n            \"status\": true\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 4,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 4,\n    \"totalPages\": 1\n}"
                     }
                   ]
                 },
@@ -1099,7 +1123,7 @@
                     "header": [],
                     "body": {
                       "mode": "raw",
-                      "raw": "{\r\n    \"fullName\": \"Juliane Maran\",\r\n    \"email\": \"julianemaran@gmail.com\",\r\n    \"phone\": \"5541992199488\"\r\n}",
+                      "raw": "{\r\n    \"fullName\": \"Rian\",\r\n    \"email\": \"rian@example.com\",\r\n    \"phone\": \"11998765432\"\r\n}",
                       "options": {
                         "raw": {
                           "language": "json"
@@ -1126,7 +1150,7 @@
                         "header": [],
                         "body": {
                           "mode": "raw",
-                          "raw": "{\r\n    \"fullName\": \"John Doe\",\r\n    \"email\": \"john.doe@example.com\",\r\n    \"phone\": \"11998765432\"\r\n}",
+                          "raw": "{\r\n    \"fullName\": \"Rian\",\r\n    \"email\": \"rian@example.com\",\r\n    \"phone\": \"11998765432\"\r\n}",
                           "options": {
                             "raw": {
                               "language": "json"
@@ -1147,21 +1171,19 @@
                       },
                       "status": "Created",
                       "code": 201,
-                      "_postman_previewlanguage": "json",
+                      "_postman_previewlanguage": null,
                       "header": [
                         {
-                          "key": "Content-Type",
-                          "value": "application/json",
-                          "description": "",
-                          "type": "text"
+                          "key": "Location",
+                          "value": "/api/v1/customers/d8b8fcad-3a6c-44d6-b1b0-fd08af343d6a"
                         },
                         {
-                          "key": "Transfer-Encoding",
-                          "value": "chunked"
+                          "key": "Content-Length",
+                          "value": "0"
                         },
                         {
                           "key": "Date",
-                          "value": "Thu, 02 Apr 2026 16:16:01 GMT"
+                          "value": "Thu, 02 Apr 2026 18:19:36 GMT"
                         },
                         {
                           "key": "Keep-Alive",
@@ -1173,7 +1195,7 @@
                         }
                       ],
                       "cookie": [],
-                      "body": "{\n    \"id\": \"22203ca3-e911-449a-bd88-2a37bf8c7c39\",\n    \"fullName\": \"John Doe\",\n    \"email\": \"john.doe@example.com\",\n    \"phone\": \"11998765432\",\n    \"registrationDate\": null,\n    \"lastUpdate\": null,\n    \"status\": true\n}"
+                      "body": null
                     },
                     {
                       "name": "400 Bad Request - Email is required",
