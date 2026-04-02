@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.UUID;
 
 /**
- * customer-api-spring
+ * JPA Repository
  *
  * @author Juliane Maran
  * @since 02/04/2026

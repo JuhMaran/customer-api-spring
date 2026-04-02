@@ -1,7 +1,7 @@
 package com.juhmaran.customerapi.exceptions;
 
 /**
- * customer-api-spring
+ * Conflict
  *
  * @author Juliane Maran
  * @since 02/04/2026

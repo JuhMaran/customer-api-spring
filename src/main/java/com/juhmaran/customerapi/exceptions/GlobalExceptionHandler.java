@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 /**
- * customer-api-spring
+ * Exception Handler
  *
  * @author Juliane Maran
  * @since 02/04/2026

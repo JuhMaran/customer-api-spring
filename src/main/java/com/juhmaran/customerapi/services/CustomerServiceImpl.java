@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.UUID;
 
 /**
- * Customer Service Implementation
+ * Customer Service Implementation with Logs
  *
  * @author Juliane Maran
  * @since 02/04/2026
@@ -38,7 +38,7 @@ public class CustomerServiceImpl implements CustomerService {
       throw new DuplicateFieldException("Email already registered");
     }
     Customer customer = mapper.toEntity(request);
-    customer.setStatus(true); // Sempre TRUE no cadastro
+    customer.setStatus(true);
     Customer saved = customerRepository.save(customer);
     log.info("Creating customer: {}", saved.getId());
     return mapper.toDTO(saved);
@@ -102,9 +102,9 @@ public class CustomerServiceImpl implements CustomerService {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
 
-    if (customer.getStatus()) {
+    if (Boolean.TRUE.equals(customer.getStatus())) {
       log.warn("Cliente já está ativo: {}", id);
-      return; // já ativo, não faz nada
+      return;
     }
 
     // Verifica se existe outro cliente ativo com o mesmo email
@@ -112,7 +112,7 @@ public class CustomerServiceImpl implements CustomerService {
       throw new DuplicateFieldException("Não é possível reativar: email já cadastrado por outro cliente ativo");
     }
 
-    customer.setStatus(true); // reativação lógica
+    customer.setStatus(true);
     customerRepository.save(customer);
     log.info("Cliente reativado (status=true): {}", id);
   }
@@ -122,7 +122,7 @@ public class CustomerServiceImpl implements CustomerService {
   public void deactivateCustomer(UUID id) {
     Customer customer = customerRepository.findById(id)
       .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
-    customer.setStatus(false); // Exclusão lógica
+    customer.setStatus(false);
     customerRepository.save(customer);
     log.info("Cliente desativado (status=false): {}", id);
   }
