@@ -1,233 +1,212 @@
 # Customer API REST
 
-API RESTful completa para gerenciamento de clientes, construída com **Spring Boot**, **Spring Data JPA**, **Hibernate**,
-**MapStruct** e **Flyway**. A API implementa **CRUD**, **exclusão lógica** e **reativação de clientes**, seguindo boas
-práticas de desenvolvimento backend.
+API REST para gerenciamento de clientes (**Customer**), com foco em consistência de dados, busca avançada e boas
+práticas de arquitetura backend.
 
 ## Sumário
 
-* [Tecnologias](#tecnologias)
-* [Funcionalidades](#funcionalidades)
-* [Customer Entity](#customer-entity)
-* [Endpoints REST](#endpoints-rest)
-* [Validações e Exceções](#validações-e-exceções)
-* [Configuração](#configuração)
-* [Executando a Aplicação](#executando-a-aplicação)
-* [Exemplos de Payload](#exemplos-de-payload)
-* [Exemplos de Response Body](#exemplos-de-response-body)
-* [Licença](#licença)
-* [Autora & Desenvolvedora](#autora--desenvolvedora)
+- [Objetivo](#objetivo)
+- [Tecnologias](#tecnologias)
+- [Funcionalidades](#funcionalidades)
+- [Modelo de Domínio](#modelo-de-domínio)
+- [Regras de Negócio](#regras-de-negócio)
+- [Busca Avançada](#busca-avançada)
+- [Endpoints](#endpoints)
+- [Paginação](#paginação)
+- [Cache](#cache)
+- [Tratamento de Erros](#tratamento-de-erros)
+- [Banco de Dados](#banco-de-dados)
+- [Observabilidade](#observabilidade)
+- [Pontos Importantes](#pontos-importantes)
+- [Licença](#licença)
+- [Autora & Desenvolvedora](#autora--desenvolvedora)
+
+## Objetivo
+
+Fornecer uma API robusta para:
+
+- Cadastro e manutenção de clientes
+- Controle de ativação/desativação (*soft delete*)
+- Garantia de unicidade de e-mail
+- Busca avançada baseada em parâmetros explícitos
+- Observabilidade e cache para melhor performance
 
 ## Tecnologias
 
-* Java 25 LTS (set/2025)
-* Spring Framework 7 (nov/2025)
-* Spring Boot 4.0.5 (nov/2025)
-* Spring Data JPA + Hibernate
-* MapStruct
-* Lombok
-* Flyway (versionamento de banco)
-* MySQL
-* Spring Actuator
-* Jakarta Bean Validation
-* H2 Database
+- Java 25 LTS (set/2025)
+- Spring Framework 7 (nov/2025)
+- Spring Boot 4.0.5 (nov/2025)
+- Spring Data JPA + Hibernate
+- MapStruct
+- Lombok
+- Flyway (versionamento de banco)
+- MySQL
+- H2 Database (ambiente de desenvolvimento/testes)
+- Spring Actuator (monitoramento)
+- Jakarta Bean Validation
 
 ## Funcionalidades
 
-* Cadastro de clientes (`POST /customers`)
-* Consulta de cliente por ID (`GET /customers/{id}`)
-* Listagem de clientes ativos (`GET /customers`)
-* Atualização total (`PUT /customers/{id}`)
-* Atualização parcial (`PATCH /customers/{id}`)
-* Exclusão lógica (`DELETE /customers/{id}` → `status = FALSE`)
-* Reativação de clientes (`PATCH /customers/{id}/reactivate` → `status = TRUE`)
-* Validação de dados com mensagens claras
-* Controle de concorrência otimista (`@Version`)
-* Timestamps automáticos (`registrationDate`, `lastUpdate`)
+- CRUD completo de clientes
+- Soft delete (desativação sem remoção física)
+- Reativação com validação de integridade
+- Busca avançada com múltiplos filtros combinados (AND)
+- Paginação padrão
+- Cache com invalidação automática
+- Controle de concorrência (*optimistic locking*)
+- Tratamento padronizado de erros
+- Observabilidade com logs estruturados
 
-## Customer Entity
+## Modelo de Domínio
 
-Modelo de persistência do cliente:
+### Customer
 
-| Campo              | Tipo          | Descrição                                                   | Validação                     | Exemplo                                | Obrigatório |
-|--------------------|---------------|-------------------------------------------------------------|-------------------------------|----------------------------------------|-------------|
-| `id`               | UUID          | Identificador único, gerado automaticamente pelo Hibernate. | Não informado pelo usuário    | `3fa85f64-5717-4562-b3fc-2c963f66afa6` | Sim         |
-| `version`          | Integer       | Controle de concorrência otimista.                          | Gerenciado pelo JPA/Hibernate | `1`                                    | Não         |
-| `fullName`         | String        | Nome completo do cliente.                                   | 3–150 caracteres              | `Juliane Maran`                        | Sim         |
-| `email`            | String        | E-mail do cliente.                                          | Único, formato válido         | `juliane@example.com`                  | Sim         |
-| `phone`            | String        | Número de telefone internacional E.164.                     | 11–15 dígitos, '+' opcional   | `+5511998765432`                       | Não         |
-| `registrationDate` | LocalDateTime | Data de cadastro, gerada automaticamente.                   | Não editável                  | `2026-04-02T10:30:00`                  | Sim         |
-| `lastUpdate`       | LocalDateTime | Data da última atualização, atualizada automaticamente.     | Automático                    | `2026-04-02T15:45:00`                  | Sim         |
-| `status`           | Boolean       | Status ativo (`true`) ou inativo (`false`).                 | Default `true`                | `true`                                 | Sim         |
+| Campo            | Tipo     | Descrição                        |
+|------------------|----------|----------------------------------|
+| id               | UUID     | Identificador único              |
+| fullName         | String   | Nome completo (3–150 caracteres) |
+| email            | String   | Único globalmente                |
+| phone            | String   | Formato E.164                    |
+| phoneSearch      | String   | Apenas números (uso interno)     |
+| status           | Boolean  | Ativo/Inativo                    |
+| registrationDate | DateTime | Data de criação                  |
+| lastUpdate       | DateTime | Última atualização               |
+| version          | Long     | Controle de concorrência         |
 
-## Endpoints REST
+## Regras de Negócio
 
-Base URL: `http://localhost:8081/api/v1/customers`
+### Criação
 
-| Método | Endpoint           | Descrição                        | Status HTTP                   |
-|--------|--------------------|----------------------------------|-------------------------------|
-| POST   | `/`                | Criar cliente                    | 201 Created + Location header |
-| GET    | `/`                | Listar clientes ativos           | 200 OK                        |
-| GET    | `/{id}`            | Buscar cliente por ID            | 200 OK                        |
-| PUT    | `/{id}`            | Atualização total                | 204 No Content                |
-| PATCH  | `/{id}`            | Atualização parcial              | 204 No Content                |
-| DELETE | `/{id}`            | Exclusão lógica (status = FALSE) | 204 No Content                |
-| PATCH  | `/{id}/reactivate` | Reativar cliente (status = TRUE) | 204 No Content                |
+- Email deve ser único (mesmo para clientes inativos)
+- Cliente inicia como ativo (`status = true`)
+- Telefone é normalizado automaticamente
 
-## Validações e Exceções
+### Atualização
 
-* **Email já cadastrado** → `EmailAlreadyExistsException` (HTTP 409 Conflict)
-* **Cliente não encontrado** → `CustomerNotFoundException` (HTTP 404 Not Found)
-* **DTO inválido** → `MethodArgumentNotValidException` (HTTP 400 Bad Request)
-* **Validações de path/params** → `ConstraintViolationException` (HTTP 400)
-* **Exceção genérica** → HTTP 500 Internal Server Error
+- `PUT`: atualização completa
+- `PATCH`: atualização parcial (manual, sem mapper)
+- Validação de email em caso de alteração
 
-Exceções tratadas globalmente via `@RestControllerAdvice` com **logs estruturados**:
+### Desativação
 
-* `WARN` → erros 4xx
-* `ERROR` → erros 5xx
-* `log.info` → ações importantes
-* `log.debug` → leitura
-* `log.warn` → fallback / comportamento inesperado
+- Não remove do banco
+- Apenas define `status = false`
 
-## Configuração
+### Reativação
 
-Arquivo `application.yaml`:
+- Permitida apenas para clientes inativos
+- Bloqueada se houver outro cliente ativo com o mesmo email
 
-```yaml
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/customer_db
-    username: root
-    password: password
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: true
-    properties:
-      hibernate.format_sql: true
-  flyway:
-    enabled: true
-    locations: classpath:db/migration
-server:
-  port: 8081
-logging:
-  level:
-    root: INFO
-    com.juhmaran.customerapi: DEBUG
+## Busca Avançada
+
+Endpoint:
+
+```
+GET /api/v1/customers/search
 ```
 
-## Executando a Aplicação
+### Parâmetros
 
-1. Clonar o repositório:
+| Parâmetro | Descrição                        |
+|-----------|----------------------------------|
+| fullName  | Busca por nome (`LIKE`)          |
+| email     | Busca por email (`LIKE`)         |
+| phone     | Busca por telefone (normalizado) |
+| status    | Ativo/Inativo                    |
+| page      | Página                           |
+| size      | Tamanho                          |
 
-    ```bash
-    git clone <repo-url>
-    cd customer-api-spring
-    ```
+### Regras
 
-2. Configurar o banco de dados MySQL e atualizar `application.yaml`.
+- Combinação de filtros via **AND**
+- Sem ambiguidade (campos explícitos)
+- Busca vazia:
+    - retorna ativos por padrão
+- Sem resultados:
+    - retorna `404`
 
-3. Executar com Maven:
+## Endpoints
 
-    ```bash
-    ./mvnw spring-boot:run
-    ```
+Base URL:
 
-4. Endpoints disponíveis em: `http://localhost:8081/api/v1/customers`
-
-## Exemplos de Payload
-
-### Get Customer By ID
-
-```bash
-curl --location 'http://localhost:8081/api/v1/customers/91dfd2b2-0ec3-4381-95d5-2f54900944bf'
 ```
+/api/v1/customers
+````
 
-### Register New Customer (Body Vazio + Location Header)
+| Método | Endpoint                   | Descrição            |
+|--------|----------------------------|----------------------|
+| POST   | `/`                        | Criar cliente        |
+| GET    | `/{customerId}`            | Buscar por ID        |
+| GET    | `/`                        | Listar ativos        |
+| PUT    | `/{customerId}`            | Atualização completa |
+| PATCH  | `/{customerId}`            | Atualização parcial  |
+| PATCH  | `/{customerId}/deactivate` | Desativar            |
+| PATCH  | `/{customerId}/reactivate` | Reativar             |
+| GET    | `/search`                  | Busca avançada       |
 
-```bash
-curl --location 'http://localhost:8081/api/v1/customers' \
---header 'Content-Type: application/json' \
---data-raw '{
-    "fullName": "John Doe",
-    "email": "john.doe@example.com",
-    "phone": "11998765432"
-}' \
---include
-```
+## Paginação
 
-> **Observação:** O POST retorna **status 201**, **body vazio** e o header `Location` aponta para o recurso criado, por
-> exemplo:
->
-> ```
-> HTTP/1.1 201 Created
-> Location: /api/v1/customers/91dfd2b2-0ec3-4381-95d5-2f54900944bf
-> ```
+- `page = 0` (default)
+- `size = 10` (default)
 
-## Exemplos de Response Body
+## Cache
 
-### Sucesso – GET Customer
+### Tipos
+
+- `customers` → busca por ID
+- `customersPage` → listagem
+- `customersSearch` → busca
+
+### Invalidação
+
+- Executada automaticamente em operações de escrita
+
+## Tratamento de Erros
+
+Formato padrão:
 
 ```json
 {
-  "id": "91dfd2b2-0ec3-4381-95d5-2f54900944bf",
-  "fullName": "John Doe",
-  "email": "john.doe@example.com",
-  "phone": "11998765432",
-  "registrationDate": "2026-04-02T12:17:58",
-  "lastUpdate": "2026-04-02T12:17:58",
-  "status": true
-}
-```
-
-### Erro – 400 Bad Request (DTO inválido)
-
-```json
-{
-  "timestamp": "2026-04-02T13:25:02.9131373",
+  "timestamp": "...",
   "status": 400,
   "error": "Bad Request",
-  "message": "email: Email is required",
-  "path": "/api/v1/customers"
+  "message": "...",
+  "path": "/api/..."
 }
 ```
 
-### Erro – 404 Not Found
+### Principais códigos
 
-```json
-{
-  "timestamp": "2026-04-02T13:10:42.6037993",
-  "status": 404,
-  "error": "Not Found",
-  "message": "Cliente não encontrado",
-  "path": "/api/v1/customers/91dfd2b2-0ec3-4381-95d5-2f54900944bf"
-}
-```
+| Status | Descrição                  |
+|--------|----------------------------|
+| 400    | Validação inválida         |
+| 404    | Não encontrado             |
+| 409    | Conflito (email duplicado) |
+| 500    | Erro interno               |
 
-### Erro – 409 Conflict (Email já cadastrado)
+## Banco de Dados
 
-```json
-{
-  "timestamp": "2026-04-02T13:23:29.8127067",
-  "status": 409,
-  "error": "Conflict",
-  "message": "Email já cadastrado",
-  "path": "/api/v1/customers"
-}
-```
+- MySQL
+- Versionamento com Flyway
+- `ddl-auto: validate`
 
-### Erro – 500 Internal Server Error
+## Observabilidade
 
-```json
-{
-  "timestamp": "2026-04-02T13:11:06.6135247",
-  "status": 500,
-  "error": "Internal Server Error",
-  "message": "Ocorreu um erro inesperado",
-  "path": "/api/v1/customers/:customerId"
-}
-```
+- Logs estruturados
+- Níveis:
+    - INFO → operações principais
+    - DEBUG → consultas
+    - TRACE → SQL detalhado
+- Integração com Logbook + Logstash
+- Endpoint `/health` monitorado
+
+## Pontos Importantes
+
+- Email é único globalmente
+- Cliente nunca é removido fisicamente
+- Telefone é normalizado automaticamente
+- Busca não utiliza parsing genérico (sem ambiguidade)
+- Cache é sempre invalidado em escrita
 
 ## Licença
 
