@@ -17,6 +17,7 @@ import org.mapstruct.MappingTarget;
 @Mapper(componentModel = MappingConstants.ComponentModel.SPRING)
 public interface CustomerMapper {
 
+  @Mapping(target = "phoneSearch", ignore = true)
   @Mapping(target = "version", ignore = true)
   @Mapping(target = "status", ignore = true)
   @Mapping(target = "registrationDate", ignore = true)
@@ -26,6 +27,7 @@ public interface CustomerMapper {
 
   CustomerResponseDTO toDTO(Customer entity);
 
+  @Mapping(target = "phoneSearch", ignore = true)
   @Mapping(target = "version", ignore = true)
   @Mapping(target = "status", ignore = true)
   @Mapping(target = "registrationDate", ignore = true)

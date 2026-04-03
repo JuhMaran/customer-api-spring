@@ -29,4 +29,6 @@ public interface CustomerService {
 
   void deactivateCustomer(UUID id);
 
+  Page<CustomerResponseDTO> searchCustomers(String query, Pageable pageable);
+
 }

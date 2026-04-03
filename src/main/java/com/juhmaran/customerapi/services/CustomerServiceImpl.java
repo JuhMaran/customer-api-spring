@@ -22,8 +22,6 @@ import java.util.UUID;
  * Customer Service Implementation with Logs and Caching
  *
  * @author Juliane Maran
- * @Cacheable → armazena o resultado da consulta
- * @CacheEvict → limpa o cache quando há atualização ou exclusão
  * @since 02/04/2026
  */
 @Slf4j
@@ -31,21 +29,32 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
+  public static final String CUSTOMER_NOT_FOUND = "Customer not found";
+  public static final String EMAIL_ALREADY_REGISTERED = "Email already in use";
+  public static final String EMAIL_ALREADY_ACTIVE = "Cannot reactivate: email already in use by another active customer";
+
   private final CustomerRepository customerRepository;
   private final CustomerMapper mapper;
 
   @Override
   @Transactional
-  @CacheEvict(value = {"customers", "customersPage"}, allEntries = true)
+  @CacheEvict(
+    value = {"customers", "customersPage", "customersSearch"},
+    allEntries = true
+  )
   public CustomerResponseDTO createCustomer(CustomerRequestDTO request) {
     log.info("Creating customer with email: {}", request.email());
+
     if (customerRepository.existsByEmail(request.email())) {
-      throw new DuplicateFieldException("Email already registered");
+      throw new DuplicateFieldException(EMAIL_ALREADY_REGISTERED);
     }
+
     Customer customer = mapper.toEntity(request);
     customer.setStatus(true);
+
     Customer saved = customerRepository.save(customer);
-    log.info("Creating customer: {}", saved.getId());
+
+    log.info("Customer created. ID: {}", saved.getId());
     return mapper.toDTO(saved);
   }
 
@@ -53,51 +62,70 @@ public class CustomerServiceImpl implements CustomerService {
   @Transactional(readOnly = true)
   @Cacheable(value = "customers", key = "#id")
   public CustomerResponseDTO getCustomerById(UUID id) {
+    log.debug("Fetching customer by id: {}", id);
+
     Customer customer = customerRepository.findById(id)
-      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+      .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_NOT_FOUND));
+
     return mapper.toDTO(customer);
   }
 
   @Override
   @Transactional(readOnly = true)
-  @Cacheable(value = "customersPage", key = "#pageable.pageNumber + '-' + #pageable.pageSize")
+  @Cacheable(
+    value = "customersPage",
+    key = "#pageable.pageNumber + '-' + #pageable.pageSize"
+  )
   public Page<CustomerResponseDTO> getAllCustomers(Pageable pageable) {
-    Page<Customer> customersPage = customerRepository.findAllByStatusTrue(pageable);
+    log.debug("Fetching all active customers. Page: {}, Size: {}",
+      pageable.getPageNumber(), pageable.getPageSize());
+
+    Page<Customer> customersPage =
+      customerRepository.findAllByStatusTrue(pageable);
+
     return customersPage.map(mapper::toDTO);
   }
 
   @Override
   @Transactional
   @CacheEvict(
-    value = {"customers", "customersPage"},
-    allEntries = true // Garantir consistência
+    value = {"customers", "customersPage", "customersSearch"},
+    allEntries = true
   )
   public void updateCustomer(UUID id, CustomerRequestDTO request) {
+    log.info("Updating customer: {}", id);
+
     Customer customer = customerRepository.findById(id)
-      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+      .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_NOT_FOUND));
 
     if (request.email() != null &&
       !request.email().equals(customer.getEmail()) &&
       customerRepository.existsByEmail(request.email())) {
-      throw new DuplicateFieldException("Email already in use");
+      throw new DuplicateFieldException(EMAIL_ALREADY_REGISTERED);
     }
 
     mapper.updateEntityFromDTO(request, customer);
     customerRepository.save(customer);
-    log.info("Cliente atualizado: {}", id);
+
+    log.info("Customer updated: {}", id);
   }
 
   @Override
   @Transactional
-  @CacheEvict(value = {"customers", "customersPage"}, allEntries = true)
+  @CacheEvict(
+    value = {"customers", "customersPage", "customersSearch"},
+    allEntries = true
+  )
   public void partialUpdateCustomer(UUID id, CustomerRequestDTO request) {
+    log.info("Partially updating customer: {}", id);
+
     Customer customer = customerRepository.findById(id)
-      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+      .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_NOT_FOUND));
 
     if (request.email() != null &&
       !request.email().equals(customer.getEmail()) &&
       customerRepository.existsByEmail(request.email())) {
-      throw new DuplicateFieldException("Email já cadastrado");
+      throw new DuplicateFieldException(EMAIL_ALREADY_REGISTERED);
     }
 
     if (request.fullName() != null) customer.setFullName(request.fullName());
@@ -105,39 +133,92 @@ public class CustomerServiceImpl implements CustomerService {
     if (request.phone() != null) customer.setPhone(request.phone());
 
     customerRepository.save(customer);
-    log.info("Cliente parcialmente atualizado: {}", id);
+
+    log.info("Customer partially updated: {}", id);
   }
 
   @Override
   @Transactional
-  @CacheEvict(value = {"customers", "customersPage"}, allEntries = true)
+  @CacheEvict(
+    value = {"customers", "customersPage", "customersSearch"},
+    allEntries = true
+  )
   public void reactivateCustomer(UUID id) {
+    log.info("Reactivating customer: {}", id);
+
     Customer customer = customerRepository.findById(id)
-      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+      .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_NOT_FOUND));
 
     if (Boolean.TRUE.equals(customer.getStatus())) {
-      log.warn("Cliente já está ativo: {}", id);
+      log.warn("Customer already active: {}", id);
       return;
     }
 
     if (customerRepository.existsByEmailAndStatusTrue(customer.getEmail())) {
-      throw new DuplicateFieldException("Não é possível reativar: email já cadastrado por outro cliente ativo");
+      throw new DuplicateFieldException(EMAIL_ALREADY_ACTIVE);
     }
 
     customer.setStatus(true);
     customerRepository.save(customer);
-    log.info("Cliente reativado (status=true): {}", id);
+
+    log.info("Customer reactivated: {}", id);
   }
 
   @Override
   @Transactional
-  @CacheEvict(value = {"customers", "customersPage"}, allEntries = true)
+  @CacheEvict(
+    value = {"customers", "customersPage", "customersSearch"},
+    allEntries = true
+  )
   public void deactivateCustomer(UUID id) {
+    log.info("Deactivating customer: {}", id);
+
     Customer customer = customerRepository.findById(id)
-      .orElseThrow(() -> new CustomerNotFoundException("Cliente não encontrado"));
+      .orElseThrow(() -> new CustomerNotFoundException(CUSTOMER_NOT_FOUND));
+
     customer.setStatus(false);
     customerRepository.save(customer);
-    log.info("Cliente desativado (status=false): {}", id);
+
+    log.info("Customer deactivated: {}", id);
+  }
+
+  @Override
+  @Transactional(readOnly = true)
+  @Cacheable(
+    value = "customersSearch",
+    key = "#query + '-' + #pageable.pageNumber + '-' + #pageable.pageSize"
+  )
+  public Page<CustomerResponseDTO> searchCustomers(String query, Pageable pageable) {
+
+    String queryNormalized = (query == null)
+      ? ""
+      : query.trim().toLowerCase();
+
+    String phoneQuery = queryNormalized.replaceAll("\\D", "");
+
+    log.info("Searching customers. Query: '{}', page: {}, size: {}",
+      queryNormalized, pageable.getPageNumber(), pageable.getPageSize());
+
+    // Caso vazio → retorna todos ativos
+    if (queryNormalized.isBlank()) {
+      log.warn("Search query is empty. Falling back to getAllCustomers");
+
+      return customerRepository.findAllByStatusTrue(pageable)
+        .map(mapper::toDTO);
+    }
+
+    // Evita bug do LIKE '%%' no telefone
+    if (phoneQuery.isBlank()) phoneQuery = null;
+
+    // Evita query vazia textual
+    String textQuery = queryNormalized.isBlank() ? null : queryNormalized;
+
+    Page<Customer> result =
+      customerRepository.search(textQuery, phoneQuery, pageable);
+
+    log.info("Search result count: {}", result.getTotalElements());
+
+    return result.map(mapper::toDTO);
   }
 
 }

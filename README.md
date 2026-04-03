@@ -1,6 +1,8 @@
 # Customer API REST
 
-API RESTful completa para gerenciamento de clientes, construída com **Spring Boot**, **Spring Data JPA**, **Hibernate**, **MapStruct** e **Flyway**. A API implementa **CRUD**, **exclusão lógica** e **reativação de clientes**, seguindo boas práticas de desenvolvimento backend.
+API RESTful completa para gerenciamento de clientes, construída com **Spring Boot**, **Spring Data JPA**, **Hibernate**,
+**MapStruct** e **Flyway**. A API implementa **CRUD**, **exclusão lógica** e **reativação de clientes**, seguindo boas
+práticas de desenvolvimento backend.
 
 ## Sumário
 
@@ -84,6 +86,9 @@ Exceções tratadas globalmente via `@RestControllerAdvice` com **logs estrutura
 
 * `WARN` → erros 4xx
 * `ERROR` → erros 5xx
+* `log.info` → ações importantes
+* `log.debug` → leitura
+* `log.warn` → fallback / comportamento inesperado
 
 ## Configuração
 
@@ -232,7 +237,7 @@ Este projeto é destinado para **fins educacionais**
 
 ## Autora & Desenvolvedora
 
-<h1 style="text-align: center;">Juliane Maran</h1>  
+### Juliane Maran
 
-<p style="text-align: center;">Software Architecture & Development</p>  
+_Software Architecture & Development_  
 

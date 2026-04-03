@@ -4,6 +4,8 @@ import com.juhmaran.customerapi.entities.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.UUID;
 
@@ -21,4 +23,19 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
 
   boolean existsByEmailAndStatusTrue(String email);
 
+  @Query("""
+      SELECT c FROM Customer c
+      WHERE c.status = true
+      AND (
+        (:query IS NOT NULL AND :query <> '' AND (
+          LOWER(c.fullName) LIKE LOWER(CONCAT('%', :query, '%'))
+          OR LOWER(c.email) LIKE LOWER(CONCAT('%', :query, '%'))
+        ))
+        OR
+        (:phoneQuery IS NOT NULL AND :phoneQuery <> '' AND
+          c.phoneSearch LIKE CONCAT('%', :phoneQuery, '%')
+        )
+      )
+    """)
+  Page<Customer> search(@Param("query") String query, @Param("phoneQuery") String phoneQuery, Pageable pageable);
 }

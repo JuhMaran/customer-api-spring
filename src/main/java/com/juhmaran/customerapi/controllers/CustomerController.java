@@ -33,16 +33,15 @@ public class CustomerController {
   public ResponseEntity<Void> createCustomer(@Valid @RequestBody CustomerRequestDTO dto) {
     CustomerResponseDTO created = customerService.createCustomer(dto);
 
-    // Cria headers com Location
     HttpHeaders headers = new HttpHeaders();
     headers.add("Location", "/api/v1/customers/" + created.id());
 
     return new ResponseEntity<>(headers, HttpStatus.CREATED);
   }
 
-  @GetMapping("/{id}")
-  public ResponseEntity<CustomerResponseDTO> getById(@PathVariable UUID id) {
-    return ResponseEntity.ok(customerService.getCustomerById(id));
+  @GetMapping("/{customerId}")
+  public ResponseEntity<CustomerResponseDTO> getById(@PathVariable UUID customerId) {
+    return ResponseEntity.ok(customerService.getCustomerById(customerId));
   }
 
   @GetMapping
@@ -50,32 +49,48 @@ public class CustomerController {
     @RequestParam(value = "page", defaultValue = "0") int page,
     @RequestParam(value = "size", defaultValue = "10") int size) {
 
-    Page<CustomerResponseDTO> customers = customerService.getAllCustomers(PageRequest.of(page, size));
+    Page<CustomerResponseDTO> customers =
+      customerService.getAllCustomers(PageRequest.of(page, size));
+
     return ResponseEntity.ok(customers);
   }
 
-  @PutMapping("/{id}")
+  @PutMapping("/{customerId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void updateCustomer(@PathVariable UUID id, @Valid @RequestBody CustomerRequestDTO dto) {
-    customerService.updateCustomer(id, dto);
+  public void updateCustomer(@PathVariable UUID customerId,
+                             @Valid @RequestBody CustomerRequestDTO dto) {
+    customerService.updateCustomer(customerId, dto);
   }
 
-  @PatchMapping("/{id}")
+  @PatchMapping("/{customerId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void partialUpdateCustomer(@PathVariable UUID id, @RequestBody CustomerRequestDTO dto) {
-    customerService.partialUpdateCustomer(id, dto);
+  public void partialUpdateCustomer(@PathVariable UUID customerId,
+                                    @RequestBody CustomerRequestDTO dto) {
+    customerService.partialUpdateCustomer(customerId, dto);
   }
 
-  @DeleteMapping("/{id}")
+  @PatchMapping("/{customerId}/deactivate")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void deactivateCustomer(@PathVariable UUID id) {
-    customerService.deactivateCustomer(id);
+  public void deactivateCustomer(@PathVariable UUID customerId) {
+    customerService.deactivateCustomer(customerId);
   }
 
-  @PatchMapping("/{id}/reactivate")
+  @PatchMapping("/{customerId}/reactivate")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void reactivateCustomer(@PathVariable UUID id) {
-    customerService.reactivateCustomer(id);
+  public void reactivateCustomer(@PathVariable UUID customerId) {
+    customerService.reactivateCustomer(customerId);
+  }
+
+  @GetMapping("/search")
+  public ResponseEntity<Page<CustomerResponseDTO>> searchCustomers(
+    @RequestParam("search") String search,
+    @RequestParam(value = "page", defaultValue = "0") int page,
+    @RequestParam(value = "size", defaultValue = "10") int size) {
+
+    Page<CustomerResponseDTO> result =
+      customerService.searchCustomers(search, PageRequest.of(page, size));
+
+    return ResponseEntity.ok(result);
   }
 
 }
