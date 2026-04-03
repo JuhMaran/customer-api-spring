@@ -38,4 +38,5 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
       )
     """)
   Page<Customer> search(@Param("query") String query, @Param("phoneQuery") String phoneQuery, Pageable pageable);
+
 }
