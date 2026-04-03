@@ -83,12 +83,15 @@ public class CustomerController {
 
   @GetMapping("/search")
   public ResponseEntity<Page<CustomerResponseDTO>> searchCustomers(
-    @RequestParam("search") String search,
+    @RequestParam(value = "fullName", required = false) String fullName,
+    @RequestParam(value = "email", required = false) String email,
+    @RequestParam(value = "phone", required = false) String phone,
+    @RequestParam(value = "status", required = false) Boolean status,
     @RequestParam(value = "page", defaultValue = "0") int page,
     @RequestParam(value = "size", defaultValue = "10") int size) {
 
     Page<CustomerResponseDTO> result =
-      customerService.searchCustomers(search, PageRequest.of(page, size));
+      customerService.searchCustomers(fullName, email, phone, status, PageRequest.of(page, size));
 
     return ResponseEntity.ok(result);
   }

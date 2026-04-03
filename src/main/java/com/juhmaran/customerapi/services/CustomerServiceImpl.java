@@ -186,39 +186,58 @@ public class CustomerServiceImpl implements CustomerService {
   @Transactional(readOnly = true)
   @Cacheable(
     value = "customersSearch",
-    key = "#query + '-' + #pageable.pageNumber + '-' + #pageable.pageSize"
+    key = "#fullName + '-' + #email + '-' + #phone + '-' + #status + '-' + #pageable.pageNumber + '-' + #pageable.pageSize"
   )
-  public Page<CustomerResponseDTO> searchCustomers(String query, Pageable pageable) {
+  public Page<CustomerResponseDTO> searchCustomers(
+    String fullName,
+    String email,
+    String phone,
+    Boolean status,
+    Pageable pageable) {
 
-    String queryNormalized = (query == null)
-      ? ""
-      : query.trim().toLowerCase();
+    String normalizedName = (fullName == null) ? null : fullName.trim().toLowerCase();
+    String normalizedEmail = (email == null) ? null : email.trim().toLowerCase();
+    String normalizedPhone = (phone == null) ? null : phone.replaceAll("\\D", "");
 
-    String phoneQuery = queryNormalized.replaceAll("\\D", "");
+    log.info("Search - fullName: '{}', email: '{}', phone: '{}', status: {}, page: {}, size: {}",
+      normalizedName, normalizedEmail, normalizedPhone, status,
+      pageable.getPageNumber(), pageable.getPageSize());
 
-    log.info("Searching customers. Query: '{}', page: {}, size: {}",
-      queryNormalized, pageable.getPageNumber(), pageable.getPageSize());
+    boolean noFilters =
+      (normalizedName == null || normalizedName.isBlank()) &&
+        (normalizedEmail == null || normalizedEmail.isBlank()) &&
+        (normalizedPhone == null || normalizedPhone.isBlank());
 
-    // Caso vazio → retorna todos ativos
-    if (queryNormalized.isBlank()) {
-      log.warn("Search query is empty. Falling back to getAllCustomers");
+    if (noFilters) {
+      return filterByStatus(status, pageable);
+    }
 
+    Page<Customer> result = customerRepository.searchAdvanced(
+      normalizedName,
+      normalizedEmail,
+      normalizedPhone,
+      status,
+      pageable
+    );
+
+    if (result.isEmpty()) {
+      throw new CustomerNotFoundException(
+        "No customers found for the provided search criteria"
+      );
+    }
+
+    return result.map(mapper::toDTO);
+  }
+
+  private Page<CustomerResponseDTO> filterByStatus(Boolean status, Pageable pageable) {
+
+    if (status == null || status) {
       return customerRepository.findAllByStatusTrue(pageable)
         .map(mapper::toDTO);
     }
 
-    // Evita bug do LIKE '%%' no telefone
-    if (phoneQuery.isBlank()) phoneQuery = null;
-
-    // Evita query vazia textual
-    String textQuery = queryNormalized.isBlank() ? null : queryNormalized;
-
-    Page<Customer> result =
-      customerRepository.search(textQuery, phoneQuery, pageable);
-
-    log.info("Search result count: {}", result.getTotalElements());
-
-    return result.map(mapper::toDTO);
+    return customerRepository.findAllByStatusFalse(pageable)
+      .map(mapper::toDTO);
   }
 
 }

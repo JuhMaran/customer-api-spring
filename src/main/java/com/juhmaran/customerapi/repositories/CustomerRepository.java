@@ -23,20 +23,21 @@ public interface CustomerRepository extends JpaRepository<Customer, UUID> {
 
   boolean existsByEmailAndStatusTrue(String email);
 
+  Page<Customer> findAllByStatusFalse(Pageable pageable);
+
   @Query("""
-      SELECT c FROM Customer c
-      WHERE c.status = true
-      AND (
-        (:query IS NOT NULL AND :query <> '' AND (
-          LOWER(c.fullName) LIKE LOWER(CONCAT('%', :query, '%'))
-          OR LOWER(c.email) LIKE LOWER(CONCAT('%', :query, '%'))
-        ))
-        OR
-        (:phoneQuery IS NOT NULL AND :phoneQuery <> '' AND
-          c.phoneSearch LIKE CONCAT('%', :phoneQuery, '%')
-        )
-      )
+    SELECT c FROM Customer c
+    WHERE (:status IS NULL OR c.status = :status)
+    AND (:fullName IS NULL OR LOWER(c.fullName) LIKE LOWER(CONCAT('%', :fullName, '%')))
+    AND (:email IS NULL OR LOWER(c.email) LIKE LOWER(CONCAT('%', :email, '%')))
+    AND (:phone IS NULL OR c.phoneSearch LIKE CONCAT('%', :phone, '%'))
     """)
-  Page<Customer> search(@Param("query") String query, @Param("phoneQuery") String phoneQuery, Pageable pageable);
+  Page<Customer> searchAdvanced(
+    @Param("fullName") String fullName,
+    @Param("email") String email,
+    @Param("phone") String phone,
+    @Param("status") Boolean status,
+    Pageable pageable
+  );
 
 }
