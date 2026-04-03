@@ -42,8 +42,13 @@ public class Customer {
   @Column(nullable = false, unique = true)
   private String email;
 
-  @Column(length = 15)
+  // Telefone oficial (E.164)
+  @Column(length = 16)
   private String phone;
+
+  // Campo auxiliar para busca (somente números)
+  @Column(name = "phone_search", length = 15)
+  private String phoneSearch;
 
   @CreationTimestamp
   @Column(updatable = false)
@@ -54,5 +59,14 @@ public class Customer {
 
   @Builder.Default
   private Boolean status = true;
+
+  // Normalização automática
+  @PrePersist
+  @PreUpdate
+  private void normalizePhone() {
+    if (this.phone != null) {
+      this.phoneSearch = this.phone.replaceAll("\\D", "");
+    }
+  }
 
 }

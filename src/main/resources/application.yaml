@@ -42,6 +42,7 @@ spring:
     cache-names:
       - customers
       - customersPage
+      - customersSearch
 
 management:
   endpoint:

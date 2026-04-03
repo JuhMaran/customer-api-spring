@@ -25,7 +25,10 @@ public record CustomerRequestDTO(
   @Email(message = "Email must be valid")
   String email,
 
-  @Pattern(regexp = "^\\+?[1-9]\\d{10,14}$", message = "Phone must follow E.164 format")
+  @Pattern(
+    regexp = "^\\+?[1-9]\\d{10,14}$",
+    message = "Phone must follow E.164 format"
+  )
   String phone
 ) {
 }
