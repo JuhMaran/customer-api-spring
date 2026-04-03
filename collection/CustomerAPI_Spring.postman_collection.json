@@ -306,6 +306,34 @@
           ]
         },
         {
+          "name": "metrics",
+          "item": [
+            {
+              "name": "metrics",
+              "request": {
+                "auth": {
+                  "type": "noauth"
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "http://localhost:8081/actuator/metrics",
+                  "protocol": "http",
+                  "host": [
+                    "localhost"
+                  ],
+                  "port": "8081",
+                  "path": [
+                    "actuator",
+                    "metrics"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
           "name": "actuator",
           "request": {
             "method": "GET",
@@ -405,14 +433,14 @@
                               "variable": [
                                 {
                                   "key": "customerId",
-                                  "value": "50bd9552-1323-4f53-9c58-e28f17e03962"
+                                  "value": "43e6345a-00f0-481c-acb9-d8386485fcc0"
                                 }
                               ]
                             }
                           },
                           "response": [
                             {
-                              "name": "204 No Content - Reactivate",
+                              "name": "204 No Content",
                               "originalRequest": {
                                 "method": "PATCH",
                                 "header": [],
@@ -431,7 +459,7 @@
                                   "variable": [
                                     {
                                       "key": "customerId",
-                                      "value": "50bd9552-1323-4f53-9c58-e28f17e03962"
+                                      "value": "43e6345a-00f0-481c-acb9-d8386485fcc0"
                                     }
                                   ]
                                 }
@@ -442,7 +470,85 @@
                               "header": [
                                 {
                                   "key": "Date",
-                                  "value": "Thu, 02 Apr 2026 17:51:05 GMT"
+                                  "value": "Fri, 03 Apr 2026 11:25:52 GMT"
+                                },
+                                {
+                                  "key": "Keep-Alive",
+                                  "value": "timeout=60"
+                                },
+                                {
+                                  "key": "Connection",
+                                  "value": "keep-alive"
+                                }
+                              ],
+                              "cookie": [],
+                              "body": null
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "deactivate",
+                      "item": [
+                        {
+                          "name": "204 No Content",
+                          "request": {
+                            "method": "PATCH",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/:customerId/deactivate",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                ":customerId",
+                                "deactivate"
+                              ],
+                              "variable": [
+                                {
+                                  "key": "customerId",
+                                  "value": "43e6345a-00f0-481c-acb9-d8386485fcc0"
+                                }
+                              ]
+                            }
+                          },
+                          "response": [
+                            {
+                              "name": "Deactivate Customer",
+                              "originalRequest": {
+                                "method": "PATCH",
+                                "header": [],
+                                "url": {
+                                  "raw": "{{baseUrl}}/api/v1/customers/:customerId/deactivate",
+                                  "host": [
+                                    "{{baseUrl}}"
+                                  ],
+                                  "path": [
+                                    "api",
+                                    "v1",
+                                    "customers",
+                                    ":customerId",
+                                    "deactivate"
+                                  ],
+                                  "variable": [
+                                    {
+                                      "key": "customerId",
+                                      "value": "43e6345a-00f0-481c-acb9-d8386485fcc0"
+                                    }
+                                  ]
+                                }
+                              },
+                              "status": "No Content",
+                              "code": 204,
+                              "_postman_previewlanguage": null,
+                              "header": [
+                                {
+                                  "key": "Date",
+                                  "value": "Fri, 03 Apr 2026 11:25:29 GMT"
                                 },
                                 {
                                   "key": "Keep-Alive",
@@ -479,7 +585,7 @@
                           "variable": [
                             {
                               "key": "customerId",
-                              "value": "91dfd2b2-0ec3-4381-95d5-2f54900944bf"
+                              "value": "344b5031-b488-42b2-80e2-860bc3b2153b"
                             }
                           ]
                         }
@@ -798,77 +904,6 @@
                       ]
                     },
                     {
-                      "name": "Deactivate Customer",
-                      "request": {
-                        "method": "DELETE",
-                        "header": [],
-                        "url": {
-                          "raw": "{{baseUrl}}/api/v1/customers/:customerId",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "api",
-                            "v1",
-                            "customers",
-                            ":customerId"
-                          ],
-                          "variable": [
-                            {
-                              "key": "customerId",
-                              "value": "50bd9552-1323-4f53-9c58-e28f17e03962"
-                            }
-                          ]
-                        }
-                      },
-                      "response": [
-                        {
-                          "name": "204 No Content - Deactivate",
-                          "originalRequest": {
-                            "method": "DELETE",
-                            "header": [],
-                            "url": {
-                              "raw": "{{baseUrl}}/api/v1/customers/:customerId",
-                              "host": [
-                                "{{baseUrl}}"
-                              ],
-                              "path": [
-                                "api",
-                                "v1",
-                                "customers",
-                                ":customerId"
-                              ],
-                              "variable": [
-                                {
-                                  "key": "customerId",
-                                  "value": "50bd9552-1323-4f53-9c58-e28f17e03962"
-                                }
-                              ]
-                            }
-                          },
-                          "status": "No Content",
-                          "code": 204,
-                          "_postman_previewlanguage": null,
-                          "header": [
-                            {
-                              "key": "Date",
-                              "value": "Thu, 02 Apr 2026 17:48:48 GMT"
-                            },
-                            {
-                              "key": "Keep-Alive",
-                              "value": "timeout=60"
-                            },
-                            {
-                              "key": "Connection",
-                              "value": "keep-alive"
-                            }
-                          ],
-                          "cookie": [],
-                          "body": null
-                        }
-                      ]
-                    },
-                    {
                       "name": "Partially Update Customer By ID",
                       "request": {
                         "method": "PATCH",
@@ -1017,6 +1052,674 @@
                           ],
                           "cookie": [],
                           "body": "{\n    \"timestamp\": \"2026-04-02T13:23:09.5631508\",\n    \"status\": 404,\n    \"error\": \"Not Found\",\n    \"message\": \"Cliente não encontrado\",\n    \"path\": \"/api/v1/customers/22203ca3-e911-449a-bd88-2a37bf8c7c39\"\n}"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "search",
+                  "item": [
+                    {
+                      "name": "search",
+                      "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "{{baseUrl}}/api/v1/customers/search?status=true&email=@example",
+                          "host": [
+                            "{{baseUrl}}"
+                          ],
+                          "path": [
+                            "api",
+                            "v1",
+                            "customers",
+                            "search"
+                          ],
+                          "query": [
+                            {
+                              "key": "search",
+                              "value": "suzi",
+                              "disabled": true
+                            },
+                            {
+                              "key": "page",
+                              "value": "0",
+                              "description": "Número de Páginas (0-indexed). Valor padrão = 0",
+                              "disabled": true
+                            },
+                            {
+                              "key": "size",
+                              "value": "10",
+                              "description": "Quantidade de registros por página. Valor padrão = 10",
+                              "disabled": true
+                            },
+                            {
+                              "key": "status",
+                              "value": "true",
+                              "description": "Lista clientes ativos (true) ou inativos (false)"
+                            },
+                            {
+                              "key": "phone",
+                              "value": "1234",
+                              "description": "Número de telefone do cliente - Deve ser sem '+'",
+                              "type": "text",
+                              "disabled": true
+                            },
+                            {
+                              "key": "fullName",
+                              "value": "Ju",
+                              "description": "Nome do cliente parcial ou completo",
+                              "type": "text",
+                              "disabled": true
+                            },
+                            {
+                              "key": "email",
+                              "value": "@example",
+                              "description": "Email do cliente parcial ou completo"
+                            }
+                          ]
+                        }
+                      },
+                      "response": [
+                        {
+                          "name": "200 OK - Lista vazia",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/search?search=suzi&page=0&size=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "search",
+                                  "value": "suzi",
+                                  "description": "Buscar por nome ou email ou número de telefone"
+                                },
+                                {
+                                  "key": "page",
+                                  "value": "0",
+                                  "description": "Número de Páginas (0-indexed). Valor padrão = 0"
+                                },
+                                {
+                                  "key": "size",
+                                  "value": "10",
+                                  "description": "Quantidade de registros por página. Valor padrão = 10"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Fri, 03 Apr 2026 11:24:10 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [
+                            {
+                              "expires": "Invalid Date",
+                              "domain": "",
+                              "path": ""
+                            }
+                          ],
+                          "body": "{\n    \"content\": [],\n    \"empty\": true,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 0,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 0,\n    \"totalPages\": 0\n}"
+                        },
+                        {
+                          "name": "200 OK - phone number",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/search?search=9488&page=0&size=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "search",
+                                  "value": "9488",
+                                  "description": "Buscar por nome ou email "
+                                },
+                                {
+                                  "key": "page",
+                                  "value": "0",
+                                  "description": "Número de Páginas (0-indexed). Valor padrão = 0"
+                                },
+                                {
+                                  "key": "size",
+                                  "value": "10",
+                                  "description": "Quantidade de registros por página. Valor padrão = 10"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Fri, 03 Apr 2026 11:05:37 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"content\": [\n        {\n            \"id\": \"43e6345a-00f0-481c-acb9-d8386485fcc0\",\n            \"fullName\": \"Juliane V Maran\",\n            \"email\": \"julianemaran@gmail.com\",\n            \"phone\": \"+5541992199488\",\n            \"registrationDate\": \"2026-04-02T14:45:26\",\n            \"lastUpdate\": \"2026-04-03T05:03:10\",\n            \"status\": true\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 1,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 1,\n    \"totalPages\": 1\n}"
+                        },
+                        {
+                          "name": "200 OK - fullName",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/search?search=Rian&page=0&size=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "search",
+                                  "value": "Rian",
+                                  "description": "Buscar por nome ou email ou número de telefone"
+                                },
+                                {
+                                  "key": "page",
+                                  "value": "0",
+                                  "description": "Número de Páginas (0-indexed). Valor padrão = 0"
+                                },
+                                {
+                                  "key": "size",
+                                  "value": "10",
+                                  "description": "Quantidade de registros por página. Valor padrão = 10"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Fri, 03 Apr 2026 11:22:12 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"content\": [\n        {\n            \"id\": \"d8b8fcad-3a6c-44d6-b1b0-fd08af343d6a\",\n            \"fullName\": \"Rian\",\n            \"email\": \"rian@example.com\",\n            \"phone\": \"11998765432\",\n            \"registrationDate\": \"2026-04-02T15:19:37\",\n            \"lastUpdate\": \"2026-04-03T05:03:10\",\n            \"status\": true\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 1,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 1,\n    \"totalPages\": 1\n}"
+                        },
+                        {
+                          "name": "200 OK - email",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/search?search=@gmail.com&page=0&size=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "search",
+                                  "value": "@gmail.com",
+                                  "description": "Buscar por nome ou email ou número de telefone"
+                                },
+                                {
+                                  "key": "page",
+                                  "value": "0",
+                                  "description": "Número de Páginas (0-indexed). Valor padrão = 0"
+                                },
+                                {
+                                  "key": "size",
+                                  "value": "10",
+                                  "description": "Quantidade de registros por página. Valor padrão = 10"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Fri, 03 Apr 2026 11:22:50 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"content\": [\n        {\n            \"id\": \"43e6345a-00f0-481c-acb9-d8386485fcc0\",\n            \"fullName\": \"Juliane V Maran\",\n            \"email\": \"julianemaran@gmail.com\",\n            \"phone\": \"+5541992199488\",\n            \"registrationDate\": \"2026-04-02T14:45:26\",\n            \"lastUpdate\": \"2026-04-03T05:03:10\",\n            \"status\": true\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 1,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 1,\n    \"totalPages\": 1\n}"
+                        },
+                        {
+                          "name": "200 OK - fullName + email",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/search?fullName=John&email=@example",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "search",
+                                  "value": "suzi",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "page",
+                                  "value": "0",
+                                  "description": "Número de Páginas (0-indexed). Valor padrão = 0",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "size",
+                                  "value": "10",
+                                  "description": "Quantidade de registros por página. Valor padrão = 10",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "status",
+                                  "value": "true",
+                                  "description": "Lista clientes ativos (true) ou inativos (false)",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "phone",
+                                  "value": "1234",
+                                  "type": "text",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "fullName",
+                                  "value": "John"
+                                },
+                                {
+                                  "key": "email",
+                                  "value": "@example"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Fri, 03 Apr 2026 12:29:38 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"content\": [\n        {\n            \"id\": \"50bd9552-1323-4f53-9c58-e28f17e03962\",\n            \"fullName\": \"John Doe\",\n            \"email\": \"john.doe@example.com\",\n            \"phone\": \"11998765432\",\n            \"registrationDate\": \"2026-04-02T14:44:19\",\n            \"lastUpdate\": \"2026-04-03T05:03:10\",\n            \"status\": true\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 1,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 1,\n    \"totalPages\": 1\n}"
+                        },
+                        {
+                          "name": "200 OK - status + email",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/search?status=true&email=@example",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "search",
+                                  "value": "suzi",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "page",
+                                  "value": "0",
+                                  "description": "Número de Páginas (0-indexed). Valor padrão = 0",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "size",
+                                  "value": "10",
+                                  "description": "Quantidade de registros por página. Valor padrão = 10",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "status",
+                                  "value": "true",
+                                  "description": "Lista clientes ativos (true) ou inativos (false)"
+                                },
+                                {
+                                  "key": "phone",
+                                  "value": "1234",
+                                  "description": "Número de telefone do cliente - Deve ser sem '+'",
+                                  "type": "text",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "fullName",
+                                  "value": "Ju",
+                                  "description": "Nome do cliente parcial ou completo",
+                                  "type": "text",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "email",
+                                  "value": "@example",
+                                  "description": "Email do cliente parcial ou completo"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "OK",
+                          "code": 200,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Fri, 03 Apr 2026 12:31:43 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"content\": [\n        {\n            \"id\": \"344b5031-b488-42b2-80e2-860bc3b2153b\",\n            \"fullName\": \"Maria da Silva\",\n            \"email\": \"maria.silva@example.com\",\n            \"phone\": \"11998765432\",\n            \"registrationDate\": \"2026-04-02T15:15:37\",\n            \"lastUpdate\": \"2026-04-03T05:03:10\",\n            \"status\": true\n        },\n        {\n            \"id\": \"50bd9552-1323-4f53-9c58-e28f17e03962\",\n            \"fullName\": \"John Doe\",\n            \"email\": \"john.doe@example.com\",\n            \"phone\": \"11998765432\",\n            \"registrationDate\": \"2026-04-02T14:44:19\",\n            \"lastUpdate\": \"2026-04-03T05:03:10\",\n            \"status\": true\n        },\n        {\n            \"id\": \"d8b8fcad-3a6c-44d6-b1b0-fd08af343d6a\",\n            \"fullName\": \"Rian\",\n            \"email\": \"rian@example.com\",\n            \"phone\": \"11998765432\",\n            \"registrationDate\": \"2026-04-02T15:19:37\",\n            \"lastUpdate\": \"2026-04-03T05:03:10\",\n            \"status\": true\n        }\n    ],\n    \"empty\": false,\n    \"first\": true,\n    \"last\": true,\n    \"number\": 0,\n    \"numberOfElements\": 3,\n    \"pageable\": {\n        \"offset\": 0,\n        \"pageNumber\": 0,\n        \"pageSize\": 10,\n        \"paged\": true,\n        \"sort\": {\n            \"empty\": true,\n            \"sorted\": false,\n            \"unsorted\": true\n        },\n        \"unpaged\": false\n    },\n    \"size\": 10,\n    \"sort\": {\n        \"empty\": true,\n        \"sorted\": false,\n        \"unsorted\": true\n    },\n    \"totalElements\": 3,\n    \"totalPages\": 1\n}"
+                        },
+                        {
+                          "name": "404 Not Found",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/search?phone=1234&fullName=John",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "search",
+                                  "value": "suzi",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "page",
+                                  "value": "0",
+                                  "description": "Número de Páginas (0-indexed). Valor padrão = 0",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "size",
+                                  "value": "10",
+                                  "description": "Quantidade de registros por página. Valor padrão = 10",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "status",
+                                  "value": "true",
+                                  "description": "Lista clientes ativos (true) ou inativos (false)",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "phone",
+                                  "value": "1234"
+                                },
+                                {
+                                  "key": "fullName",
+                                  "value": "John"
+                                },
+                                {
+                                  "key": "email",
+                                  "value": "@example",
+                                  "type": "text",
+                                  "disabled": true
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Not Found",
+                          "code": 404,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Fri, 03 Apr 2026 12:29:02 GMT"
+                            },
+                            {
+                              "key": "Keep-Alive",
+                              "value": "timeout=60"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "keep-alive"
+                            }
+                          ],
+                          "cookie": [],
+                          "body": "{\n    \"timestamp\": \"2026-04-03T09:29:01.9156764\",\n    \"status\": 404,\n    \"error\": \"Not Found\",\n    \"message\": \"No customers found for the provided search criteria\",\n    \"path\": \"/api/v1/customers/search\"\n}"
+                        },
+                        {
+                          "name": "500 Internal Server Error",
+                          "originalRequest": {
+                            "method": "GET",
+                            "header": [],
+                            "url": {
+                              "raw": "{{baseUrl}}/api/v1/customers/search?page=0&size=10",
+                              "host": [
+                                "{{baseUrl}}"
+                              ],
+                              "path": [
+                                "api",
+                                "v1",
+                                "customers",
+                                "search"
+                              ],
+                              "query": [
+                                {
+                                  "key": "search",
+                                  "value": "@gmail.com",
+                                  "description": "Buscar por nome ou email ou número de telefone",
+                                  "disabled": true
+                                },
+                                {
+                                  "key": "page",
+                                  "value": "0",
+                                  "description": "Número de Páginas (0-indexed). Valor padrão = 0"
+                                },
+                                {
+                                  "key": "size",
+                                  "value": "10",
+                                  "description": "Quantidade de registros por página. Valor padrão = 10"
+                                }
+                              ]
+                            }
+                          },
+                          "status": "Internal Server Error",
+                          "code": 500,
+                          "_postman_previewlanguage": "json",
+                          "header": [
+                            {
+                              "key": "Content-Type",
+                              "value": "application/json",
+                              "description": "",
+                              "type": "text"
+                            },
+                            {
+                              "key": "Transfer-Encoding",
+                              "value": "chunked"
+                            },
+                            {
+                              "key": "Date",
+                              "value": "Fri, 03 Apr 2026 11:23:15 GMT"
+                            },
+                            {
+                              "key": "Connection",
+                              "value": "close"
+                            }
+                          ],
+                          "cookie": [
+                            {
+                              "expires": "Invalid Date",
+                              "domain": "",
+                              "path": ""
+                            }
+                          ],
+                          "body": "{\n    \"timestamp\": \"2026-04-03T08:23:15.5049887\",\n    \"status\": 500,\n    \"error\": \"Internal Server Error\",\n    \"message\": \"Ocorreu um erro inesperado\",\n    \"path\": \"/api/v1/customers/search\"\n}"
                         }
                       ]
                     }
